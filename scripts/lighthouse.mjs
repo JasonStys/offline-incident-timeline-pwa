@@ -1,6 +1,6 @@
 /**
- * @file Runs current Lighthouse twice against the production preview and enforces conservative budgets.
- * Functions: waitForServer, launchPreview, isWindowsCleanupError, stopChrome, runAudit, summarize, enforceBudgets, main.
+ * @file Runs current Lighthouse three times against the production preview and enforces conservative budgets.
+ * Functions: waitForServer, launchPreview, isWindowsCleanupError, stopChrome, runAudit, median, summarize, enforceBudgets, main.
  * Variables: ROOT, OUTPUT_DIRECTORY, TARGET_URL, RUN_COUNT, CATEGORY_BUDGETS, AUDIT_BUDGETS.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
@@ -16,7 +16,7 @@ import { chromium } from "playwright";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT_DIRECTORY = path.join(ROOT, ".runtime", "lighthouse");
 const TARGET_URL = "http://127.0.0.1:4174/";
-const RUN_COUNT = 2;
+const RUN_COUNT = 3;
 const CATEGORY_BUDGETS = {
   accessibility: 1,
   "best-practices": 0.95,
@@ -122,16 +122,29 @@ async function runAudit(runNumber) {
 }
 
 /**
- * Selects the worst category score and slowest audit value across runs.
+ * Finds the median of an odd-sized numeric sample.
+ * @param {number[]} values Numeric sample.
+ * @returns {number} Median value.
+ */
+function median(values) {
+  if (values.length === 0 || values.length % 2 === 0) {
+    throw new Error("Median requires a non-empty odd-sized sample.");
+  }
+  const sorted = values.toSorted((left, right) => left - right);
+  return sorted[Math.floor(sorted.length / 2)] ?? 0;
+}
+
+/**
+ * Selects median performance, worst deterministic categories, and slowest timing across runs.
  * @param {import("lighthouse").Result[]} results Lighthouse results.
  * @returns {{categories: Record<string, number>, audits: Record<string, number>}} Summary.
  */
 function summarize(results) {
   const categories = Object.fromEntries(
-    Object.keys(CATEGORY_BUDGETS).map((name) => [
-      name,
-      Math.min(...results.map((result) => result.categories[name]?.score ?? 0)),
-    ]),
+    Object.keys(CATEGORY_BUDGETS).map((name) => {
+      const scores = results.map((result) => result.categories[name]?.score ?? 0);
+      return [name, name === "performance" ? median(scores) : Math.min(...scores)];
+    }),
   );
   const audits = Object.fromEntries(
     Object.keys(AUDIT_BUDGETS).map((name) => [

@@ -35,6 +35,6 @@ This report records the repository acceptance contract for the initial release. 
 
 ## Result recording
 
-The release candidate passed the complete local deterministic gate, Chromium and WebKit browser flows, two Lighthouse runs, the 50,000-record benchmark, and a high-severity dependency audit. Generated measurements are committed under `docs/reports/generated/benchmark.json`, while exact local test and coverage totals are recorded in `TEST_SUMMARY.md`.
+The release candidate passed the complete local deterministic gate, Chromium and WebKit browser flows, three Lighthouse runs, the 50,000-record benchmark, and a high-severity dependency audit. Generated measurements are committed under `docs/reports/generated/benchmark.json`, while exact local test and coverage totals are recorded in `TEST_SUMMARY.md`.
 
 The final commit and GitHub run URLs are reported in the release handoff after the independent Ubuntu Chromium, Firefox, WebKit, Lighthouse, dependency-review, and CodeQL jobs complete. This linked run is authoritative for the published commit.

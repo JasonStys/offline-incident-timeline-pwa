@@ -47,7 +47,7 @@
 | `scripts/benchmark.mjs`                           | Benchmarks normalization, stable ordering, indexed filtering, serialization size, and memory delta.                             |
 | `scripts/generate-code-index.mjs`                 | Generates an exact line-number index for functions, classes, variables, and HTML element IDs.                                   |
 | `scripts/generate-file-catalog.mjs`               | Generates a complete file catalog from source headers and curated non-code descriptions.                                        |
-| `scripts/lighthouse.mjs`                          | Runs current Lighthouse twice against the production preview and enforces conservative budgets.                                 |
+| `scripts/lighthouse.mjs`                          | Runs current Lighthouse three times against the production preview and enforces conservative budgets.                           |
 | `scripts/validate-repository.mjs`                 | Enforces documentation, source-header, workflow-pin, unsafe-DOM, fixture, and repository contracts.                             |
 | `SECURITY.md`                                     | Security model, supported versions, reporting, and safe-data policy.                                                            |
 | `src/app.js`                                      | Coordinates imports, persistence, indexed filtering, accessible rendering, exports, and recovery.                               |

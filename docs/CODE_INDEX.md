@@ -189,15 +189,18 @@
 | 96 | function | `runAudit` |
 | 97 | variable | `chrome` |
 | 102 | variable | `result` |
-| 129 | function | `summarize` |
-| 130 | variable | `categories` |
-| 136 | variable | `audits` |
-| 152 | function | `enforceBudgets` |
-| 153 | variable | `failures` |
-| 166 | function | `main` |
-| 168 | variable | `preview` |
-| 171 | variable | `results` |
-| 175 | variable | `summary` |
+| 129 | function | `median` |
+| 133 | variable | `sorted` |
+| 142 | function | `summarize` |
+| 143 | variable | `categories` |
+| 145 | variable | `scores` |
+| 149 | variable | `audits` |
+| 165 | function | `enforceBudgets` |
+| 166 | variable | `failures` |
+| 179 | function | `main` |
+| 181 | variable | `preview` |
+| 184 | variable | `results` |
+| 188 | variable | `summary` |
 
 ## `scripts/validate-repository.mjs`
 

@@ -32,8 +32,8 @@ Local release-candidate verification on Node.js 24.18.1 produced:
 | V8 line coverage               | 97.71%.                                                                                                     |
 | Chromium production flows      | 5 passed: main journey, export, axe, offline recovery, and cancellation.                                    |
 | WebKit production flows        | 3 passed; the 2 Service Worker/cancellation cases are intentionally Chromium-only.                          |
-| Lighthouse worst of two runs   | Accessibility 1.00, best practices 1.00, performance 0.97, SEO 0.91.                                        |
-| Lighthouse worst-case timings  | FCP 905.72 ms, LCP 1,070.22 ms, TBT 0 ms.                                                                   |
+| Lighthouse three-run summary   | Accessibility 1.00, best practices 1.00, performance 0.97 median, SEO 0.91.                                 |
+| Lighthouse worst-case timings  | FCP 907.05 ms, LCP 1,075.55 ms, TBT 0 ms.                                                                   |
 | Deterministic 50,000-row bench | All budgets passed; detailed numbers are in `PERFORMANCE.md`.                                               |
 | Dependency audit               | `npm audit --audit-level=high` reported zero vulnerabilities.                                               |
 | Repository quality gates       | Format, lint, strict JavaScript types, build, repository contract, generated index, and catalog all passed. |

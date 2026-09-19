@@ -46,6 +46,8 @@ npm run verify
 
 Install browsers once with `npx playwright install chromium firefox webkit`. CI installs each browser and its Linux dependencies in isolated matrix jobs.
 
+Lighthouse runs three times. The performance category uses the median score to reduce shared-runner noise, while accessibility, best-practices, and SEO use the lowest score and FCP/LCP/TBT use the slowest measurement. Every declared budget must still pass.
+
 ## Manual checks
 
 Automated tools cannot prove screen-reader comprehension. Before a visual release:
