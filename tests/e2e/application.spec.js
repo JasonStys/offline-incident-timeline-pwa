@@ -9,7 +9,9 @@ import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
-  await page.getByRole("button", { name: "Load demo incident" }).click();
+  const demoButton = page.getByRole("button", { name: "Load demo incident" });
+  await expect(demoButton).toBeEnabled();
+  await demoButton.click();
   await expect(page.locator("#operation-status")).toContainText("15 events loaded");
 });
 

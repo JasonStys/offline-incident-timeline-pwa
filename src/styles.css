@@ -123,13 +123,14 @@ button.danger {
   color: var(--error);
 }
 
-button:disabled {
+button:disabled,
+.file-button[aria-disabled="true"] {
   cursor: not-allowed;
   opacity: 0.5;
 }
 
 button:hover:not(:disabled),
-.file-button:hover {
+.file-button:hover:not([aria-disabled="true"]) {
   filter: brightness(1.08);
 }
 

@@ -49,14 +49,23 @@
             <p class="eyebrow">Step 1</p>
             <h2 id="import-heading">Load event evidence</h2>
           </div>
-          <output id="operation-status" role="status" aria-live="polite">Ready</output>
+          <output id="operation-status" role="status" aria-live="polite">Starting…</output>
         </div>
         <div class="action-row">
-          <button id="demo-button" type="button">Load demo incident</button>
-          <label class="file-button" for="file-input">Import JSON or CSV</label>
-          <input id="file-input" type="file" accept=".json,.csv,application/json,text/csv" />
+          <button id="demo-button" type="button" disabled>Load demo incident</button>
+          <label id="file-label" class="file-button" for="file-input" aria-disabled="true"
+            >Import JSON or CSV</label
+          >
+          <input
+            id="file-input"
+            type="file"
+            accept=".json,.csv,application/json,text/csv"
+            disabled
+          />
           <button id="cancel-button" class="secondary" type="button" disabled>Cancel import</button>
-          <button id="clear-button" class="danger secondary" type="button">Clear local data</button>
+          <button id="clear-button" class="danger secondary" type="button" disabled>
+            Clear local data
+          </button>
         </div>
         <p class="help-text">
           Files stay in this browser. Maximum 10 MiB and 100,000 records. No data is uploaded.

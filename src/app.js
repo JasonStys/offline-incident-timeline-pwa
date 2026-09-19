@@ -1,6 +1,6 @@
 /**
  * @file Coordinates imports, persistence, indexed filtering, accessible rendering, exports, and recovery.
- * Functions: startApplication, requiredElement, loadDemo, commitImport, applyFilters, renderDetails, updateStorageStatus, setNetworkStatus.
+ * Functions: startApplication, setEvidenceActionsDisabled, requiredElement, loadDemo, commitImport, applyFilters, renderDetails, updateStorageStatus, setNetworkStatus.
  * Variables: database, parserClient, events, eventIndex, filteredEvents, controls, virtualList.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
@@ -29,6 +29,7 @@ import { ParserWorkerClient } from "./worker/client.js";
  * @property {HTMLOutputElement} operationStatus
  * @property {HTMLSelectElement} themeSelect
  * @property {HTMLButtonElement} demoButton
+ * @property {HTMLLabelElement} fileLabel
  * @property {HTMLInputElement} fileInput
  * @property {HTMLButtonElement} cancelButton
  * @property {HTMLButtonElement} clearButton
@@ -53,6 +54,7 @@ import { ParserWorkerClient } from "./worker/client.js";
  */
 export async function startApplication() {
   const controls = collectControls();
+  setEvidenceActionsDisabled(controls, true);
   const database = await openTimelineDatabase();
   const parserClient = new ParserWorkerClient();
   /** @type {IncidentEvent[]} */
@@ -117,6 +119,7 @@ export async function startApplication() {
     if (!file) {
       return;
     }
+    setEvidenceActionsDisabled(controls, true);
     controls.cancelButton.disabled = false;
     controls.operationStatus.textContent = `Reading ${file.name}…`;
     try {
@@ -134,24 +137,35 @@ export async function startApplication() {
     } finally {
       controls.cancelButton.disabled = true;
       controls.fileInput.value = "";
+      setEvidenceActionsDisabled(controls, false);
     }
   };
 
   const handleDemo = async () => {
+    setEvidenceActionsDisabled(controls, true);
     controls.operationStatus.textContent = "Loading demo incident…";
     try {
       const result = await measureOperation("demo-import", loadDemo);
       await commitImport(result, "bundled synthetic fixture");
     } catch (error) {
       controls.operationStatus.textContent = `Demo load failed: ${error instanceof Error ? error.message : "Unknown error."}`;
+    } finally {
+      setEvidenceActionsDisabled(controls, false);
     }
   };
 
   const handleClear = async () => {
-    await database.clear();
-    applyEvents([]);
-    controls.operationStatus.textContent = "Local incident data cleared.";
-    await updateStorageStatus(controls.storageStatus);
+    setEvidenceActionsDisabled(controls, true);
+    try {
+      await database.clear();
+      applyEvents([]);
+      controls.operationStatus.textContent = "Local incident data cleared.";
+      await updateStorageStatus(controls.storageStatus);
+    } catch (error) {
+      controls.operationStatus.textContent = `Clear failed: ${error instanceof Error ? error.message : "Unknown error."}`;
+    } finally {
+      setEvidenceActionsDisabled(controls, false);
+    }
   };
 
   controls.filterForm.addEventListener("input", render);
@@ -197,6 +211,7 @@ export async function startApplication() {
     }
   }
   await updateStorageStatus(controls.storageStatus);
+  setEvidenceActionsDisabled(controls, false);
 
   return () => {
     disconnectLongTasks();
@@ -204,6 +219,19 @@ export async function startApplication() {
     parserClient.terminate();
     database.close();
   };
+}
+
+/**
+ * Prevents startup restoration, imports, and clearing from mutating the same evidence concurrently.
+ * @param {AppControls} controls Application controls.
+ * @param {boolean} disabled Whether evidence-changing actions are unavailable.
+ * @returns {void}
+ */
+function setEvidenceActionsDisabled(controls, disabled) {
+  controls.demoButton.disabled = disabled;
+  controls.fileInput.disabled = disabled;
+  controls.clearButton.disabled = disabled;
+  controls.fileLabel.setAttribute("aria-disabled", String(disabled));
 }
 
 /**
@@ -386,6 +414,7 @@ function collectControls() {
     operationStatus: requiredElement("operation-status", HTMLOutputElement),
     themeSelect: requiredElement("theme-select", HTMLSelectElement),
     demoButton: requiredElement("demo-button", HTMLButtonElement),
+    fileLabel: requiredElement("file-label", HTMLLabelElement),
     fileInput: requiredElement("file-input", HTMLInputElement),
     cancelButton: requiredElement("cancel-button", HTMLButtonElement),
     clearButton: requiredElement("clear-button", HTMLButtonElement),
