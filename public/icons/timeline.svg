@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Incident timeline</title>
+  <desc id="description">Three event points connected by a rising timeline.</desc>
+  <rect width="512" height="512" rx="96" fill="#0b1220"/>
+  <path d="M96 358 220 240l84 54 112-150" fill="none" stroke="#38bdf8" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#f8fafc" stroke="#0b1220" stroke-width="16">
+    <circle cx="96" cy="358" r="38"/>
+    <circle cx="220" cy="240" r="38"/>
+    <circle cx="304" cy="294" r="38"/>
+    <circle cx="416" cy="144" r="38"/>
+  </g>
+</svg>

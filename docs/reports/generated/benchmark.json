@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-19T05:50:01.947Z",
+  "runtime": "v24.18.1",
+  "platform": "win32-x64",
+  "eventCount": 50000,
+  "metrics": {
+    "normalizeAndSortMs": 167.69619999999998,
+    "buildIndexMs": 152.67270000000002,
+    "queryP50Ms": 0.2937999999999761,
+    "queryP95Ms": 3.7519000000000347,
+    "queryP99Ms": 7.182699999999954,
+    "heapDeltaMiB": 65.96733093261719
+  },
+  "thresholds": {
+    "normalizeAndSortMs": 4000,
+    "buildIndexMs": 2000,
+    "queryP95Ms": 25,
+    "heapDeltaMiB": 160
+  }
+}

@@ -1,0 +1,191 @@
+<!doctype html>
+<!--
+  File: Hosts the semantic application shell and accessible status, import, filter, chart, and list regions.
+  Functions: none; behavior is provided by src/main.js.
+  Variables: form controls and output regions identified by stable element IDs.
+  Line locations: see docs/CODE_INDEX.md for the generated element and symbol index.
+-->
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Offline-first incident log analysis with worker parsing and accessible timelines."
+    />
+    <meta name="theme-color" content="#0b1220" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/timeline.svg" type="image/svg+xml" />
+    <title>Incident Timeline</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to incident workspace</a>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Offline incident analysis</p>
+        <h1>Incident Timeline</h1>
+        <p class="lede">
+          Import synthetic logs, trace failure chains, and keep investigating offline.
+        </p>
+      </div>
+      <div class="status-cluster" aria-label="Application status">
+        <output id="network-status" class="status-chip" aria-live="polite">Checking network</output>
+        <output id="storage-status" class="status-chip" aria-live="polite">Checking storage</output>
+        <label class="theme-control" for="theme-select">
+          Theme
+          <select id="theme-select" name="theme">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <main id="workspace" tabindex="-1">
+      <section class="panel controls-panel" aria-labelledby="import-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h2 id="import-heading">Load event evidence</h2>
+          </div>
+          <output id="operation-status" role="status" aria-live="polite">Ready</output>
+        </div>
+        <div class="action-row">
+          <button id="demo-button" type="button">Load demo incident</button>
+          <label class="file-button" for="file-input">Import JSON or CSV</label>
+          <input id="file-input" type="file" accept=".json,.csv,application/json,text/csv" />
+          <button id="cancel-button" class="secondary" type="button" disabled>Cancel import</button>
+          <button id="clear-button" class="danger secondary" type="button">Clear local data</button>
+        </div>
+        <p class="help-text">
+          Files stay in this browser. Maximum 10 MiB and 100,000 records. No data is uploaded.
+        </p>
+        <details>
+          <summary>Expected fields and recovery behavior</summary>
+          <p>
+            Each record needs a timestamp, severity, service, and message. Correlation IDs and IDs
+            are optional. Invalid rows are reported and skipped; the previous saved timeline remains
+            intact if an import fails.
+          </p>
+        </details>
+      </section>
+
+      <section class="panel" aria-labelledby="filter-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h2 id="filter-heading">Trace the failure chain</h2>
+          </div>
+          <button id="reset-filters" class="secondary" type="button">Reset filters</button>
+        </div>
+        <form id="filter-form" class="filter-grid" autocomplete="off">
+          <label for="search-input">
+            Search messages
+            <input id="search-input" name="q" type="search" maxlength="120" />
+          </label>
+          <label for="severity-select">
+            Severity
+            <select id="severity-select" name="severity">
+              <option value="">All severities</option>
+              <option value="critical">Critical</option>
+              <option value="error">Error</option>
+              <option value="warning">Warning</option>
+              <option value="info">Info</option>
+            </select>
+          </label>
+          <label for="service-select">
+            Service
+            <select id="service-select" name="service">
+              <option value="">All services</option>
+            </select>
+          </label>
+          <label for="correlation-input">
+            Correlation ID
+            <input id="correlation-input" name="correlation" maxlength="128" />
+          </label>
+        </form>
+        <p id="filter-summary" class="help-text" aria-live="polite">No events loaded.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="timeline-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 3</p>
+            <h2 id="timeline-heading">Incident overview</h2>
+          </div>
+          <div class="action-row compact">
+            <button id="export-json" class="secondary" type="button" disabled>Export JSON</button>
+            <button id="export-csv" class="secondary" type="button" disabled>Export CSV</button>
+          </div>
+        </div>
+        <p id="timeline-description">
+          The chart places events from earliest to latest and groups them by severity. The summary
+          table below provides the same counts without relying on color or position.
+        </p>
+        <div class="chart-scroll" tabindex="0" aria-label="Scrollable timeline chart">
+          <svg
+            id="timeline-chart"
+            role="img"
+            aria-labelledby="timeline-heading timeline-description"
+            viewBox="0 0 960 280"
+          ></svg>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <caption>
+              Accessible event-count alternative for the timeline
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Severity</th>
+                <th scope="col">Count</th>
+                <th scope="col">First event</th>
+                <th scope="col">Last event</th>
+              </tr>
+            </thead>
+            <tbody id="timeline-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="results-layout" aria-labelledby="events-heading">
+        <div class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Evidence</p>
+              <h2 id="events-heading">Events</h2>
+            </div>
+            <span class="keyboard-hint">Use ↑ and ↓ to move</span>
+          </div>
+          <div
+            id="event-list"
+            class="virtual-list"
+            role="listbox"
+            aria-label="Incident events"
+            aria-describedby="virtual-list-note"
+            tabindex="0"
+          ></div>
+          <p id="virtual-list-note" class="help-text">
+            The visual list renders only visible rows for performance. Export retains every filtered
+            event.
+          </p>
+        </div>
+
+        <aside class="panel detail-panel" aria-labelledby="detail-heading">
+          <p class="eyebrow">Selected record</p>
+          <h2 id="detail-heading">Event details</h2>
+          <div id="event-detail" class="empty-state">Select an event to inspect its fields.</div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Synthetic demonstration data only. Cache and database versions are visible in the browser's
+        developer tools and documented in the repository.
+      </p>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "Offline Incident Timeline",
+  "short_name": "Timeline",
+  "description": "Local-first incident event analysis with offline recovery.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090f1d",
+  "theme_color": "#0b1220",
+  "icons": [
+    {
+      "src": "./icons/timeline.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

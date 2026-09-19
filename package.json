@@ -1,0 +1,51 @@
+{
+  "name": "offline-incident-timeline-pwa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Framework-free offline incident timeline with worker parsing, IndexedDB persistence, accessible visualization, and deterministic tests.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -p jsconfig.json",
+    "test:unit": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:chromium": "playwright test --project=chromium",
+    "benchmark": "node scripts/benchmark.mjs",
+    "benchmark:check": "node scripts/benchmark.mjs --check",
+    "code-index": "node scripts/generate-code-index.mjs",
+    "code-index:check": "node scripts/generate-code-index.mjs --check",
+    "file-catalog": "node scripts/generate-file-catalog.mjs",
+    "file-catalog:check": "node scripts/generate-file-catalog.mjs --check",
+    "validate": "node scripts/validate-repository.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test:unit && npm run benchmark:check && npm run build && npm run validate && npm run code-index:check && npm run file-catalog:check",
+    "audit": "npm audit --audit-level=high"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.2",
+    "@vitest/coverage-v8": "5.0.1",
+    "chrome-launcher": "1.2.1",
+    "eslint": "10.11.0",
+    "eslint-plugin-jsdoc": "64.5.4",
+    "fake-indexeddb": "6.2.5",
+    "fast-check": "4.10.1",
+    "globals": "17.12.0",
+    "jsdom": "30.1.0",
+    "lighthouse": "13.5.0",
+    "prettier": "3.9.8",
+    "typescript": "6.0.3",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}

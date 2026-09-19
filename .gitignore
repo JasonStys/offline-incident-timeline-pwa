@@ -1,0 +1,11 @@
+# File: Excludes generated dependencies, builds, browser output, and local runtime data.
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+.runtime/
+*.log
+.DS_Store
+Thumbs.db

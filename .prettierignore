@@ -1,0 +1,7 @@
+dist/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+docs/CODE_INDEX.md
+package-lock.json

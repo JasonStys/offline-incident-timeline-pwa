@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gateway-001",
+    "timestamp": "2026-03-18T14:02:11.120Z",
+    "severity": "info",
+    "service": "edge-gateway",
+    "message": "Configuration revision 318 activated",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "auth-002",
+    "timestamp": "2026-03-18T14:02:13.442Z",
+    "severity": "warning",
+    "service": "identity",
+    "message": "Token validation latency exceeded 350 ms",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "api-003",
+    "timestamp": "2026-03-18T14:02:14.002Z",
+    "severity": "error",
+    "service": "command-api",
+    "message": "Identity dependency timed out on attempt 1",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "queue-004",
+    "timestamp": "2026-03-18T14:02:14.002Z",
+    "severity": "warning",
+    "service": "command-queue",
+    "message": "Backlog crossed 500 pending commands",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "auth-005",
+    "timestamp": "2026-03-18T14:02:14.871Z",
+    "severity": "critical",
+    "service": "identity",
+    "message": "Connection pool exhausted after upstream reset",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "api-006",
+    "timestamp": "2026-03-18T14:02:15.191Z",
+    "severity": "error",
+    "service": "command-api",
+    "message": "Identity dependency timed out on attempt 2",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "metrics-007",
+    "timestamp": "2026-03-18T14:02:16.007Z",
+    "severity": "info",
+    "service": "telemetry",
+    "message": "Incident threshold alert opened",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "queue-008",
+    "timestamp": "2026-03-18T14:02:19.623Z",
+    "severity": "error",
+    "service": "command-queue",
+    "message": "Oldest queued command exceeded 5 seconds",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "auth-009",
+    "timestamp": "2026-03-18T14:02:22.710Z",
+    "severity": "warning",
+    "service": "identity",
+    "message": "Circuit breaker opened for directory connector",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "api-010",
+    "timestamp": "2026-03-18T14:02:24.034Z",
+    "severity": "warning",
+    "service": "command-api",
+    "message": "Requests shifted to cached authorization decisions",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "queue-011",
+    "timestamp": "2026-03-18T14:02:27.124Z",
+    "severity": "info",
+    "service": "command-queue",
+    "message": "Backlog draining at 190 commands per second",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "auth-012",
+    "timestamp": "2026-03-18T14:02:31.461Z",
+    "severity": "info",
+    "service": "identity",
+    "message": "Connection pool restored with bounded concurrency",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "api-013",
+    "timestamp": "2026-03-18T14:02:34.803Z",
+    "severity": "info",
+    "service": "command-api",
+    "message": "Live authorization checks resumed",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "metrics-014",
+    "timestamp": "2026-03-18T14:02:42.204Z",
+    "severity": "info",
+    "service": "telemetry",
+    "message": "Error rate returned below recovery threshold",
+    "correlationId": "inc-2026-0318-a"
+  },
+  {
+    "id": "audit-015",
+    "timestamp": "2026-03-18T14:03:03.841Z",
+    "severity": "info",
+    "service": "audit",
+    "message": "Incident evidence bundle sealed",
+    "correlationId": "inc-2026-0318-a"
+  }
+]
