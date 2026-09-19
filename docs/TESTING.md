@@ -33,6 +33,8 @@ The largest layer protects deterministic domain behavior. Integration tests cove
 
 Vitest enforces at least 92% line, statement, and function coverage plus 88% branch coverage across the domain core, parsing/serialization, URL state, storage, and worker protocol. Browser-only orchestration is protected primarily through Playwright because line coverage there would encourage mocks that miss real lifecycle behavior.
 
+Strict JavaScript checking covers authored source, scripts, tests, and configuration. `maxNodeModuleJsDepth: 0` keeps third-party JavaScript implementations outside that boundary while their published declaration types remain available; dependency code is instead controlled through exact locks, npm audit, dependency review, and CodeQL.
+
 ## Commands
 
 ```bash
