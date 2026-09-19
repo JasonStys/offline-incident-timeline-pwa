@@ -55,6 +55,8 @@ Unknown envelope properties are ignored. The top-level record collection must be
 
 Required headers are `timestamp,severity,service,message`. Optional headers are `id,correlationId,metadata`. Aliases `event_id`, `correlation_id`, and case-insensitive `correlationid` are normalized. Quoted commas, CRLF/LF rows, doubled quote escapes, and quoted newlines are supported. Duplicate normalized headers are rejected.
 
+All other headers are rejected before records are constructed. This allowlist prevents untrusted column names such as `__proto__` from becoming object property writes.
+
 Metadata cells attempt JSON parsing; invalid metadata text reaches domain validation and is skipped as an invalid record rather than executed.
 
 ## Ordering and identity

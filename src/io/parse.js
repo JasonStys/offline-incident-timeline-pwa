@@ -1,12 +1,21 @@
 /**
  * @file Parses bounded JSON and RFC-4180-style CSV text into untrusted record objects.
  * Functions: detectFormat, parseLogText, parseJsonRecords, parseCsvRecords, parseCsvRows, csvRecord.
- * Variables: MAX_FILE_BYTES, REQUIRED_HEADERS, HEADER_ALIASES.
+ * Variables: MAX_FILE_BYTES, REQUIRED_HEADERS, SUPPORTED_HEADERS, HEADER_ALIASES.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
 
 export const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const REQUIRED_HEADERS = new Set(["timestamp", "severity", "service", "message"]);
+const SUPPORTED_HEADERS = new Set([
+  "id",
+  "timestamp",
+  "severity",
+  "service",
+  "message",
+  "correlationId",
+  "metadata",
+]);
 const HEADER_ALIASES = new Map([
   ["correlation_id", "correlationId"],
   ["correlationid", "correlationId"],
@@ -93,6 +102,10 @@ function parseCsvRecords(text) {
   if (new Set(headers).size !== headers.length) {
     throw new Error("CSV headers must be unique after alias normalization.");
   }
+  const unsupported = headers.filter((header) => !SUPPORTED_HEADERS.has(header));
+  if (unsupported.length > 0) {
+    throw new Error(`CSV contains unsupported headers: ${unsupported.join(", ")}.`);
+  }
   const missing = [...REQUIRED_HEADERS].filter((header) => !headers.includes(header));
   if (missing.length > 0) {
     throw new Error(`CSV is missing required headers: ${missing.join(", ")}.`);
@@ -159,14 +172,36 @@ function csvRecord(headers, row) {
   const record = {};
   headers.forEach((header, index) => {
     const value = row[index] ?? "";
-    if (header === "metadata" && value.trim().length > 0) {
-      try {
-        record[header] = JSON.parse(value);
-      } catch {
-        record[header] = value;
-      }
-    } else {
-      record[header] = value;
+    switch (header) {
+      case "id":
+        record.id = value;
+        break;
+      case "timestamp":
+        record.timestamp = value;
+        break;
+      case "severity":
+        record.severity = value;
+        break;
+      case "service":
+        record.service = value;
+        break;
+      case "message":
+        record.message = value;
+        break;
+      case "correlationId":
+        record.correlationId = value;
+        break;
+      case "metadata":
+        if (value.trim().length === 0) {
+          record.metadata = value;
+          break;
+        }
+        try {
+          record.metadata = JSON.parse(value);
+        } catch {
+          record.metadata = value;
+        }
+        break;
     }
   });
   return record;

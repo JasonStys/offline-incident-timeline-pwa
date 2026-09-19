@@ -77,7 +77,7 @@
 | 89 | variable | `response` |
 | 94 | variable | `cache` |
 | 96 | variable | `keys` |
-| 118 | variable | `request` |
+| 121 | variable | `request` |
 
 ## `scripts/benchmark.mjs`
 
@@ -158,17 +158,18 @@
 | 71 | function | `extractHeaderDescription` |
 | 72 | variable | `fileTag` |
 | 76 | variable | `fileLine` |
-| 89 | function | `describeFile` |
-| 90 | variable | `staticDescription` |
-| 94 | variable | `headerDescription` |
-| 114 | function | `renderCatalog` |
-| 115 | variable | `lines` |
-| 130 | function | `main` |
-| 131 | variable | `files` |
-| 132 | variable | `records` |
-| 134 | variable | `source` |
-| 137 | variable | `rendered` |
-| 139 | variable | `existing` |
+| 78 | variable | `withoutCommentEnd` |
+| 94 | function | `describeFile` |
+| 95 | variable | `staticDescription` |
+| 99 | variable | `headerDescription` |
+| 119 | function | `renderCatalog` |
+| 120 | variable | `lines` |
+| 135 | function | `main` |
+| 136 | variable | `files` |
+| 137 | variable | `records` |
+| 139 | variable | `source` |
+| 142 | variable | `rendered` |
+| 144 | variable | `existing` |
 
 ## `scripts/lighthouse.mjs`
 
@@ -389,30 +390,32 @@
 |---:|---|---|
 | 8 | variable | `MAX_FILE_BYTES` |
 | 9 | variable | `REQUIRED_HEADERS` |
-| 10 | variable | `HEADER_ALIASES` |
-| 25 | function | `detectFormat` |
-| 26 | variable | `loweredName` |
-| 27 | variable | `loweredMime` |
-| 46 | function | `parseLogText` |
-| 47 | variable | `byteLength` |
-| 62 | function | `parseJsonRecords` |
-| 63 | variable | `parsed` |
-| 83 | function | `parseCsvRecords` |
-| 84 | variable | `rows` |
-| 85 | variable | `headerRow` |
-| 89 | variable | `headers` |
-| 90 | variable | `trimmed` |
-| 96 | variable | `missing` |
-| 110 | function | `parseCsvRows` |
-| 112 | variable | `rows` |
-| 114 | variable | `row` |
-| 115 | variable | `field` |
-| 116 | variable | `quoted` |
-| 119 | variable | `character` |
-| 120 | variable | `next` |
-| 157 | function | `csvRecord` |
-| 159 | variable | `record` |
-| 161 | variable | `value` |
+| 10 | variable | `SUPPORTED_HEADERS` |
+| 19 | variable | `HEADER_ALIASES` |
+| 34 | function | `detectFormat` |
+| 35 | variable | `loweredName` |
+| 36 | variable | `loweredMime` |
+| 55 | function | `parseLogText` |
+| 56 | variable | `byteLength` |
+| 71 | function | `parseJsonRecords` |
+| 72 | variable | `parsed` |
+| 92 | function | `parseCsvRecords` |
+| 93 | variable | `rows` |
+| 94 | variable | `headerRow` |
+| 98 | variable | `headers` |
+| 99 | variable | `trimmed` |
+| 105 | variable | `unsupported` |
+| 109 | variable | `missing` |
+| 123 | function | `parseCsvRows` |
+| 125 | variable | `rows` |
+| 127 | variable | `row` |
+| 128 | variable | `field` |
+| 129 | variable | `quoted` |
+| 132 | variable | `character` |
+| 133 | variable | `next` |
+| 170 | function | `csvRecord` |
+| 172 | variable | `record` |
+| 174 | variable | `value` |
 
 ## `src/main.js`
 
@@ -570,24 +573,24 @@
 |---:|---|---|
 | 12 | variable | `NORMALIZATION_CHUNK_SIZE` |
 | 14 | variable | `activeRequests` |
-| 23 | function | `handleMessage` |
-| 27 | variable | `request` |
-| 28 | variable | `requestId` |
-| 30 | variable | `active` |
-| 52 | function | `handleParse` |
-| 57 | variable | `state` |
-| 60 | variable | `text` |
-| 61 | variable | `format` |
-| 62 | variable | `records` |
-| 66 | variable | `result` |
-| 73 | variable | `message` |
-| 87 | function | `normalizeIncrementally` |
-| 89 | variable | `events` |
-| 91 | variable | `issues` |
-| 92 | variable | `seenIds` |
-| 99 | variable | `event` |
-| 133 | function | `post` |
-| 141 | function | `yieldToEventLoop` |
+| 29 | function | `handleMessage` |
+| 33 | variable | `request` |
+| 34 | variable | `requestId` |
+| 36 | variable | `active` |
+| 58 | function | `handleParse` |
+| 63 | variable | `state` |
+| 66 | variable | `text` |
+| 67 | variable | `format` |
+| 68 | variable | `records` |
+| 72 | variable | `result` |
+| 79 | variable | `message` |
+| 93 | function | `normalizeIncrementally` |
+| 95 | variable | `events` |
+| 97 | variable | `issues` |
+| 98 | variable | `seenIds` |
+| 105 | variable | `event` |
+| 139 | function | `post` |
+| 147 | function | `yieldToEventLoop` |
 
 ## `src/worker/protocol.js`
 
@@ -688,7 +691,7 @@
 |---:|---|---|
 | 10 | variable | `validRecord` |
 | 42 | variable | `csv` |
-| 79 | variable | `csv` |
+| 85 | variable | `csv` |
 
 ## `tests/unit/protocol.test.js`
 

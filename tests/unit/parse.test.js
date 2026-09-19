@@ -72,6 +72,12 @@ describe("log parsing", () => {
     expect(() =>
       parseLogText("timestamp,severity,service,message,event_id,id\n1,info,a,b,c,d", "csv"),
     ).toThrow(/unique/);
+    expect(() =>
+      parseLogText(
+        "timestamp,severity,service,message,__proto__\n2026-01-01T00:00:00Z,info,api,Ready,polluted",
+        "csv",
+      ),
+    ).toThrow(/unsupported headers/);
     expect(() => parseCsvRows('a,"unterminated')).toThrow(/unterminated/);
   });
 

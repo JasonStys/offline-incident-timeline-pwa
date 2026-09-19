@@ -75,7 +75,12 @@ function extractHeaderDescription(source) {
   }
   const fileLine = source.match(/(?:File:|# File:)\s*([^\r\n]+)/u)?.[1]?.trim();
   if (fileLine) {
-    return fileLine.replace(/\s*-->$/u, "").trim();
+    const withoutCommentEnd = fileLine.endsWith("--!>")
+      ? fileLine.slice(0, -4)
+      : fileLine.endsWith("-->")
+        ? fileLine.slice(0, -3)
+        : fileLine;
+    return withoutCommentEnd.trim();
   }
   return null;
 }

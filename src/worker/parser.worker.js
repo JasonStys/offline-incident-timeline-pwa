@@ -13,7 +13,13 @@ const NORMALIZATION_CHUNK_SIZE = 250;
 /** @type {Map<string, {canceled: boolean}>} */
 const activeRequests = new Map();
 
-self.addEventListener("message", (event) => handleMessage(event.data));
+self.addEventListener("message", (event) => {
+  // Dedicated-worker messages normally expose an empty origin. Reject any explicit foreign origin.
+  if (event.origin !== "" && event.origin !== self.location.origin) {
+    return;
+  }
+  handleMessage(event.data);
+});
 
 /**
  * Validates the request envelope and routes parse or cancellation work.
