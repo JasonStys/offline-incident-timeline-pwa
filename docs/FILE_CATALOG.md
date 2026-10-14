@@ -24,6 +24,7 @@
 | `docs/FILE_CATALOG.md`                            | Project documentation described by its title and section contents.                                                              |
 | `docs/LIMITATIONS.md`                             | Project documentation described by its title and section contents.                                                              |
 | `docs/OFFLINE_OPERATIONS.md`                      | Project documentation described by its title and section contents.                                                              |
+| `docs/reports/ACTIONS_REVIEW_2026-10-14.md`       | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/generated/benchmark.json`           | Repository support file.                                                                                                        |
 | `docs/reports/PERFORMANCE.md`                     | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/TEST_SUMMARY.md`                    | Project documentation described by its title and section contents.                                                              |
