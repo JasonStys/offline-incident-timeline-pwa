@@ -99,6 +99,15 @@ async function validateHeaders(files) {
 async function validateActionPins(files) {
   for (const file of files.filter((candidate) => candidate.startsWith(".github/workflows/"))) {
     const source = await readFile(path.join(ROOT, file), "utf8");
+    const codeqlVersions = new Set(
+      Array.from(
+        source.matchAll(/uses:\s*github\/codeql-action\/[^@\s]+@([^\s#]+)/gu),
+        (match) => match[1],
+      ),
+    );
+    if (codeqlVersions.size > 1) {
+      throw new Error(`${file} mixes incompatible CodeQL action commits.`);
+    }
     for (const line of source.split(/\r?\n/u)) {
       const match = line.match(/\buses:\s*([^\s#]+)/u);
       if (match && !/@[0-9a-f]{40}$/u.test(match[1] ?? "")) {

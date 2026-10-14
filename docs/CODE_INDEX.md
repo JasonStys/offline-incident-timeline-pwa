@@ -222,17 +222,18 @@
 | 85 | variable | `header` |
 | 99 | function | `validateActionPins` |
 | 101 | variable | `source` |
-| 103 | variable | `match` |
-| 115 | function | `validateSourceSafety` |
-| 116 | variable | `applicationFiles` |
-| 119 | variable | `forbiddenPatterns` |
-| 126 | variable | `source` |
-| 136 | function | `validateFixture` |
-| 137 | variable | `source` |
-| 138 | variable | `records` |
-| 139 | variable | `result` |
-| 146 | function | `main` |
-| 148 | variable | `files` |
+| 102 | variable | `codeqlVersions` |
+| 112 | variable | `match` |
+| 124 | function | `validateSourceSafety` |
+| 125 | variable | `applicationFiles` |
+| 128 | variable | `forbiddenPatterns` |
+| 135 | variable | `source` |
+| 145 | function | `validateFixture` |
+| 146 | variable | `source` |
+| 147 | variable | `records` |
+| 148 | variable | `result` |
+| 155 | function | `main` |
+| 157 | variable | `files` |
 
 ## `src/app.js`
 
