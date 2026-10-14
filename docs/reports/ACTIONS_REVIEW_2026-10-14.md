@@ -11,8 +11,13 @@ format/lint/types, the 50,000-event performance gate, production build, reposito
 contracts and regenerated source/file indexes. A restricted Windows temporary
 directory initially caused test-loader ENOENT errors; moving only the test temp
 directory into ignored .runtime resolved them without changing application code.
-Browser/IndexedDB/offline flows and Lighthouse remain native CI gates. Final run
-links will be appended after verification. Historical evidence is archived
-privately on the PC, not exposed through source control.
+Accepted main source: 921ac1827518dbcec3860d910b4255a7b17215d5.
+[CI 38639973355](https://github.com/JasonStys/offline-incident-timeline-pwa/actions/runs/38639973355)
+and [CodeQL 38639973347](https://github.com/JasonStys/offline-incident-timeline-pwa/actions/runs/38639973347)
+passed. The previously failing setup-node proposal was updated without merging:
+03e940672788dba380e85e7267f191961cc7b52f passed CI 38640538653,
+CodeQL 38640538695 and dependency review 38640538665. These gates include all
+browser lanes, offline/IndexedDB flows and Lighthouse. Approved historical cleanup
+can remove old URLs; evidence is retained privately on the PC.
 
 See the [source-map-js advisory](https://github.com/advisories/GHSA-68fv-2mgg-jv7q).
