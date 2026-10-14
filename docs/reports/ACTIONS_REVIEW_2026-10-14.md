@@ -21,3 +21,19 @@ browser lanes, offline/IndexedDB flows and Lighthouse. Approved historical clean
 can remove old URLs; evidence is retained privately on the PC.
 
 See the [source-map-js advisory](https://github.com/advisories/GHSA-68fv-2mgg-jv7q).
+
+A subsequent automatic proposal failed in run 38645462285 because Vitest 5.0.3
+was paired with coverage-v8 5.0.1, whose exact peer dependency requires Vitest
+5.0.1. This is a proposal dependency conflict, not an Actions service outage.
+Both authored pins and the lock are updated together to 5.0.3; no force-install
+or legacy-peer-dependency bypass is used. Dependabot now groups the Vitest family,
+and a repository contract plus four regression cases reject missing, ranged,
+or mismatched versions. The latest verification below supersedes the original
+50-test acceptance above.
+
+The repaired pair passed a fresh locked install, full local verification and
+audit (zero known vulnerabilities): 54 tests, 96.9% statements and 89.41%
+branches, with unchanged budgets. The 50,000-event benchmark, production build,
+81-file catalog and 42-file code index also passed. Native CI will validate the
+browser flows on this exact dependency graph; its final run evidence is saved
+in the private maintenance archive after acceptance.

@@ -46,10 +46,11 @@
 | `public/service-worker.js`                        | Provides versioned app-shell caching, navigation fallback, and bounded runtime caching.                                         |
 | `README.md`                                       | Project overview, quick start, feature guide, evidence, and repository map.                                                     |
 | `scripts/benchmark.mjs`                           | Benchmarks normalization, stable ordering, indexed filtering, serialization size, and memory delta.                             |
+| `scripts/dependency-policy.mjs`                   | Validates the exact-version contract shared by Vitest and its coverage provider.                                                |
 | `scripts/generate-code-index.mjs`                 | Generates an exact line-number index for functions, classes, variables, and HTML element IDs.                                   |
 | `scripts/generate-file-catalog.mjs`               | Generates a complete file catalog from source headers and curated non-code descriptions.                                        |
 | `scripts/lighthouse.mjs`                          | Runs current Lighthouse three times against the production preview and enforces conservative budgets.                           |
-| `scripts/validate-repository.mjs`                 | Enforces documentation, source-header, workflow-pin, unsafe-DOM, fixture, and repository contracts.                             |
+| `scripts/validate-repository.mjs`                 | Enforces documentation, source-header, workflow-pin, dependency-peer, unsafe-DOM, fixture, and repository contracts.            |
 | `SECURITY.md`                                     | Security model, supported versions, reporting, and safe-data policy.                                                            |
 | `src/app.js`                                      | Coordinates imports, persistence, indexed filtering, accessible rendering, exports, and recovery.                               |
 | `src/core/event-index.js`                         | Builds reusable severity, service, correlation, and token indexes for fast event filtering.                                     |
@@ -73,6 +74,7 @@
 | `tests/e2e/offline.spec.js`                       | Proves app-shell caching, offline reload, and IndexedDB recovery in Chromium.                                                   |
 | `tests/e2e/worker-cancel.spec.js`                 | Verifies cooperative worker cancellation preserves the previously committed timeline.                                           |
 | `tests/unit/database.test.js`                     | Verifies IndexedDB creation, v1-to-v2 migration, atomic replacement, corruption checks, metadata, clear, delete, and estimates. |
+| `tests/unit/dependency-policy.test.js`            | Prevents mismatched Vitest/coverage proposals from silently changing the toolchain contract.                                    |
 | `tests/unit/event-index.test.js`                  | Verifies indexed intersections, tokens, time bounds, service discovery, and severity summaries.                                 |
 | `tests/unit/event.test.js`                        | Verifies event validation, normalization, duplicate handling, stable ties, and input limits.                                    |
 | `tests/unit/export.test.js`                       | Verifies deterministic JSON and formula-safe RFC-compatible CSV serialization.                                                  |

@@ -1,5 +1,5 @@
 /**
- * @file Enforces documentation, source-header, workflow-pin, unsafe-DOM, fixture, and repository contracts.
+ * @file Enforces documentation, source-header, workflow-pin, dependency-peer, unsafe-DOM, fixture, and repository contracts.
  * Functions: collectFiles, requireFiles, validateHeaders, validateActionPins, validateSourceSafety, validateFixture, main.
  * Variables: ROOT, REQUIRED_FILES, SOURCE_EXTENSIONS, EXCLUDED_DIRECTORIES.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
@@ -8,6 +8,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeRecords } from "../src/core/event.js";
+import { validateVitestPair } from "./dependency-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REQUIRED_FILES = [
@@ -154,6 +155,8 @@ async function validateFixture() {
 /** Runs the complete deterministic repository contract. */
 async function main() {
   await requireFiles();
+  const manifest = JSON.parse(await readFile(path.join(ROOT, "package.json"), "utf8"));
+  validateVitestPair(manifest.devDependencies);
   const files = await collectFiles(ROOT);
   await validateHeaders(files);
   await validateActionPins(files);

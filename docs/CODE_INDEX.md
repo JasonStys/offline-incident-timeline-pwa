@@ -114,6 +114,14 @@
 | 160 | variable | `failed` |
 | 161 | variable | `metricName` |
 
+## `scripts/dependency-policy.mjs`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 13 | function | `validateVitestPair` |
+| 14 | variable | `testVersion` |
+| 15 | variable | `coverageVersion` |
+
 ## `scripts/generate-code-index.mjs`
 
 | Line | Kind | Symbol |
@@ -208,32 +216,33 @@
 
 | Line | Kind | Symbol |
 |---:|---|---|
-| 12 | variable | `ROOT` |
-| 13 | variable | `REQUIRED_FILES` |
-| 41 | variable | `SOURCE_EXTENSIONS` |
-| 42 | variable | `EXCLUDED_DIRECTORIES` |
-| 58 | function | `collectFiles` |
-| 59 | variable | `entries` |
-| 60 | variable | `results` |
-| 63 | variable | `absolute` |
-| 74 | function | `requireFiles` |
-| 82 | function | `validateHeaders` |
-| 84 | variable | `source` |
-| 85 | variable | `header` |
-| 99 | function | `validateActionPins` |
-| 101 | variable | `source` |
-| 102 | variable | `codeqlVersions` |
-| 112 | variable | `match` |
-| 124 | function | `validateSourceSafety` |
-| 125 | variable | `applicationFiles` |
-| 128 | variable | `forbiddenPatterns` |
-| 135 | variable | `source` |
-| 145 | function | `validateFixture` |
-| 146 | variable | `source` |
-| 147 | variable | `records` |
-| 148 | variable | `result` |
-| 155 | function | `main` |
-| 157 | variable | `files` |
+| 13 | variable | `ROOT` |
+| 14 | variable | `REQUIRED_FILES` |
+| 42 | variable | `SOURCE_EXTENSIONS` |
+| 43 | variable | `EXCLUDED_DIRECTORIES` |
+| 59 | function | `collectFiles` |
+| 60 | variable | `entries` |
+| 61 | variable | `results` |
+| 64 | variable | `absolute` |
+| 75 | function | `requireFiles` |
+| 83 | function | `validateHeaders` |
+| 85 | variable | `source` |
+| 86 | variable | `header` |
+| 100 | function | `validateActionPins` |
+| 102 | variable | `source` |
+| 103 | variable | `codeqlVersions` |
+| 113 | variable | `match` |
+| 125 | function | `validateSourceSafety` |
+| 126 | variable | `applicationFiles` |
+| 129 | variable | `forbiddenPatterns` |
+| 136 | variable | `source` |
+| 146 | function | `validateFixture` |
+| 147 | variable | `source` |
+| 148 | variable | `records` |
+| 149 | variable | `result` |
+| 156 | function | `main` |
+| 158 | variable | `manifest` |
+| 160 | variable | `files` |
 
 ## `src/app.js`
 
@@ -654,6 +663,12 @@
 | 124 | function | `openVersionOne` |
 | 126 | variable | `request` |
 | 128 | variable | `events` |
+
+## `tests/unit/dependency-policy.test.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| — | file | No declarations indexed |
 
 ## `tests/unit/event-index.test.js`
 
