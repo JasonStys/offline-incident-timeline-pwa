@@ -5,13 +5,13 @@
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
 
-const FILTER_KEYS = ["q", "severity", "service", "correlation"];
+const FILTER_KEYS = ["q", "severity", "service", "correlation", "from", "to"];
 const MAX_URL_VALUE_LENGTH = 128;
 
 /**
  * Reads only the allowlisted filter keys from a URL.
  * @param {{search: string}} [locationValue=window.location] Location-like object.
- * @returns {{query: string, severity: string, service: string, correlationId: string}} Filter state.
+ * @returns {{query: string, severity: string, service: string, correlationId: string, from: string, to: string}} Filter state.
  */
 export function readUrlFilters(locationValue = window.location) {
   const parameters = new URLSearchParams(locationValue.search);
@@ -20,12 +20,14 @@ export function readUrlFilters(locationValue = window.location) {
     severity: boundedQueryValue(parameters.get("severity")),
     service: boundedQueryValue(parameters.get("service")),
     correlationId: boundedQueryValue(parameters.get("correlation")),
+    from: boundedQueryValue(parameters.get("from")),
+    to: boundedQueryValue(parameters.get("to")),
   };
 }
 
 /**
  * Replaces URL filter state without serializing events, metadata, or navigation history entries.
- * @param {{query?: string, severity?: string, service?: string, correlationId?: string}} filters Filter state.
+ * @param {{query?: string, severity?: string, service?: string, correlationId?: string, from?: string, to?: string}} filters Filter state.
  * @param {{replaceState: (data: unknown, unused: string, url?: string | URL | null) => void}} [historyValue=window.history] History-like object.
  * @param {{href: string}} [locationValue=window.location] Location-like object.
  * @returns {URL} Updated URL.
@@ -44,6 +46,8 @@ export function writeUrlFilters(
     severity: filters.severity,
     service: filters.service,
     correlation: filters.correlationId,
+    from: filters.from,
+    to: filters.to,
   };
   for (const [key, rawValue] of Object.entries(entries)) {
     const value = boundedQueryValue(rawValue ?? "");

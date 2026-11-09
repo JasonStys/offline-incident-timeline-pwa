@@ -12,6 +12,7 @@ A framework-free progressive web application for importing synthetic JSON/CSV ev
 - **Durable local data:** IndexedDB schema migrations, atomic snapshot replacement, persisted import evidence, startup revalidation, and corruption recovery.
 - **Algorithmic intent:** stable bottom-up merge sort, reusable inverted indexes, bounded input, formula-safe CSV output, and viewport-proportional DOM rendering.
 - **Accessible evidence:** keyboard listbox navigation, visible focus, semantic controls, reduced-motion support, high-contrast themes, an SVG overview, and an equivalent summary table.
+- **Precise incident windows:** inclusive UTC start/end controls combine with indexed filters, support millisecond boundaries and offline URL restoration, and distinguish invalid ranges from valid windows with no matches. Invalid ranges disable exports while preserving imported records.
 - **Engineering evidence:** unit/property/integration tests, cross-browser Playwright flows, axe checks, offline reload tests, worker-cancellation tests, Lighthouse budgets, CodeQL, dependency review, and exact source indexes.
 
 ## Quick start
@@ -48,12 +49,14 @@ npm run audit
 1. Import the bundled incident, a JSON array/envelope, or a CSV file.
 2. The worker decodes, validates, normalizes, de-duplicates, and stable-sorts records.
 3. The application atomically replaces the IndexedDB snapshot only after a successful import.
-4. Search by indexed tokens or narrow by severity, service, and correlation ID.
+4. Search by indexed tokens or narrow by severity, service, correlation ID and an inclusive UTC time window. Blank time bounds are open; equal bounds select an exact millisecond. Correct or reset an invalid/reversed window before exporting.
 5. Use the SVG timeline or equivalent table, then move through the virtual list with Arrow keys.
 6. Export the filtered evidence as versioned JSON or spreadsheet-safe CSV.
 7. Go offline, reload, and continue from the cached shell and local database.
 
 The URL stores only bounded filter values. Event messages, metadata, and complete records never enter shareable URL state.
+
+The [UTC window guide](docs/UTC_WINDOWS.md) explains timezone/calendar handling, safe empty/error states and exact export semantics. Updated observed evidence is in the [2026-11-09 workflow report](docs/reports/PRACTICAL_WORKFLOWS_2026-11-09.md).
 
 ## Architecture
 

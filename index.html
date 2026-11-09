@@ -113,7 +113,33 @@
             Correlation ID
             <input id="correlation-input" name="correlation" maxlength="128" />
           </label>
+          <label for="from-input">
+            From (UTC, inclusive)
+            <input
+              id="from-input"
+              name="from"
+              type="datetime-local"
+              step="0.001"
+              aria-describedby="time-hint time-error"
+            />
+          </label>
+          <label for="to-input">
+            Through (UTC, inclusive)
+            <input
+              id="to-input"
+              name="to"
+              type="datetime-local"
+              step="0.001"
+              aria-describedby="time-hint time-error"
+            />
+          </label>
         </form>
+        <p id="time-hint" class="help-text">
+          Both time fields use UTC, regardless of your computer timezone. Blank fields are
+          unbounded; equal bounds select the exact millisecond. All other filters combine with this
+          window.
+        </p>
+        <p id="time-error" class="help-text" role="alert" hidden></p>
         <p id="filter-summary" class="help-text" aria-live="polite">No events loaded.</p>
       </section>
 

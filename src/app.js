@@ -12,6 +12,7 @@ import { parseLogText } from "./io/parse.js";
 import { measureOperation, observeLongTasks } from "./performance/metrics.js";
 import { registerServiceWorker } from "./pwa/register.js";
 import { readUrlFilters, writeUrlFilters } from "./state/url-state.js";
+import { parseTimeWindow, parseUtcBoundary } from "./state/time-window.js";
 import {
   DatabaseCorruptionError,
   estimateStorage,
@@ -38,6 +39,9 @@ import { ParserWorkerClient } from "./worker/client.js";
  * @property {HTMLSelectElement} severitySelect
  * @property {HTMLSelectElement} serviceSelect
  * @property {HTMLInputElement} correlationInput
+ * @property {HTMLInputElement} fromInput
+ * @property {HTMLInputElement} toInput
+ * @property {HTMLParagraphElement} timeError
  * @property {HTMLButtonElement} resetFilters
  * @property {HTMLParagraphElement} filterSummary
  * @property {HTMLButtonElement} exportJson
@@ -73,10 +77,26 @@ export async function startApplication() {
 
   /** Updates derived state and every event-dependent view. */
   const render = () => {
-    const filters = readControlFilters(controls);
-    filteredEvents = eventIndex.filter(filters);
-    writeUrlFilters(filters);
-    controls.filterSummary.textContent = `${filteredEvents.length.toLocaleString()} of ${events.length.toLocaleString()} events shown${latestLongTaskMs > 0 ? ` · longest observed main-thread task ${latestLongTaskMs.toFixed(0)} ms` : ""}.`;
+    const range = parseTimeWindow(controls.fromInput.value, controls.toInput.value);
+    const nativeInvalid = !controls.fromInput.validity.valid || !controls.toInput.validity.valid;
+    const valid = range.valid && !nativeInvalid;
+    controls.timeError.hidden = valid;
+    if (valid) controls.timeError.textContent = "";
+    controls.fromInput.setAttribute("aria-invalid", String(!valid));
+    controls.toInput.setAttribute("aria-invalid", String(!valid));
+    if (range.valid && !nativeInvalid) {
+      const filters = readControlFilters(controls, range);
+      filteredEvents = eventIndex.filter(filters);
+      writeUrlFilters(filters);
+      controls.filterSummary.textContent = `${filteredEvents.length.toLocaleString()} of ${events.length.toLocaleString()} events shown${latestLongTaskMs > 0 ? ` · longest observed main-thread task ${latestLongTaskMs.toFixed(0)} ms` : ""}.${filteredEvents.length === 0 && events.length > 0 ? " No events match these filters; adjust the UTC window or reset filters." : ""}`;
+    } else {
+      filteredEvents = [];
+      controls.timeError.textContent = range.valid
+        ? "Complete valid UTC date/time values, or clear/reset the time fields. No events are shown or exported while the range is invalid."
+        : range.error;
+      controls.filterSummary.textContent =
+        "Time filter is invalid. Your imported evidence is preserved; correct or reset the range.";
+    }
     controls.exportJson.disabled = filteredEvents.length === 0;
     controls.exportCsv.disabled = filteredEvents.length === 0;
     renderTimelineChart(controls.timelineChart, filteredEvents);
@@ -168,9 +188,16 @@ export async function startApplication() {
     }
   };
 
-  controls.filterForm.addEventListener("input", render);
+  controls.filterForm.addEventListener("input", (event) => {
+    if (event.target === controls.fromInput) controls.fromInput.setCustomValidity("");
+    if (event.target === controls.toInput) controls.toInput.setCustomValidity("");
+    render();
+  });
+  controls.filterForm.addEventListener("submit", (event) => event.preventDefault());
   controls.resetFilters.addEventListener("click", () => {
     controls.filterForm.reset();
+    controls.fromInput.setCustomValidity("");
+    controls.toInput.setCustomValidity("");
     render();
   });
   controls.fileInput.addEventListener("change", () => void handleFile());
@@ -320,21 +347,26 @@ function issueSummary(issues) {
 /**
  * Reads current controls into the EventIndex and URL-state contract.
  * @param {AppControls} controls Application controls.
- * @returns {{query: string, severity: string, service: string, correlationId: string}} Filters.
+ * @param {{fromEpochMs: number | undefined, toEpochMs: number | undefined}} range Valid inclusive bounds.
+ * @returns {import("./core/event-index.js").EventFilters & {from: string, to: string}} Filters.
  */
-function readControlFilters(controls) {
+function readControlFilters(controls, range) {
   return {
     query: controls.searchInput.value,
     severity: controls.severitySelect.value,
     service: controls.serviceSelect.value,
     correlationId: controls.correlationInput.value,
+    from: controls.fromInput.value,
+    to: controls.toInput.value,
+    ...(range.fromEpochMs === undefined ? {} : { fromEpochMs: range.fromEpochMs }),
+    ...(range.toEpochMs === undefined ? {} : { toEpochMs: range.toEpochMs }),
   };
 }
 
 /**
  * Applies URL-derived filters without dispatching intermediate input events.
  * @param {AppControls} controls Application controls.
- * @param {{query: string, severity: string, service: string, correlationId: string}} filters URL filters.
+ * @param {{query: string, severity: string, service: string, correlationId: string, from: string, to: string}} filters URL filters.
  * @returns {void}
  */
 function setControlFilters(controls, filters) {
@@ -342,6 +374,15 @@ function setControlFilters(controls, filters) {
   controls.severitySelect.value = filters.severity;
   controls.correlationInput.value = filters.correlationId;
   controls.serviceSelect.dataset.pendingValue = filters.service;
+  for (const [input, raw] of /** @type {[HTMLInputElement, string][]} */ ([
+    [controls.fromInput, filters.from],
+    [controls.toInput, filters.to],
+  ])) {
+    input.value = raw.replace(/Z$/, "");
+    if (parseUtcBoundary(raw) === null || (raw !== "" && input.value === "")) {
+      input.setCustomValidity("Invalid UTC time in URL. Enter a valid date/time or reset filters.");
+    }
+  }
 }
 
 /**
@@ -423,6 +464,9 @@ function collectControls() {
     severitySelect: requiredElement("severity-select", HTMLSelectElement),
     serviceSelect: requiredElement("service-select", HTMLSelectElement),
     correlationInput: requiredElement("correlation-input", HTMLInputElement),
+    fromInput: requiredElement("from-input", HTMLInputElement),
+    toInput: requiredElement("to-input", HTMLInputElement),
+    timeError: requiredElement("time-error", HTMLParagraphElement),
     resetFilters: requiredElement("reset-filters", HTMLButtonElement),
     filterSummary: requiredElement("filter-summary", HTMLParagraphElement),
     exportJson: requiredElement("export-json", HTMLButtonElement),
