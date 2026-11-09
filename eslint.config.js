@@ -23,7 +23,7 @@ const nodeFiles = ["scripts/**/*.mjs", "*.config.js"];
 const testFiles = ["tests/**/*.js"];
 
 export default [
-  { ignores: ["dist/**", "coverage/**", "playwright-report/**", "test-results/**"] },
+  { ignores: ["dist/**", "coverage/**", "playwright-report/**", "test-results/**", ".runtime/**"] },
   eslint.configs.recommended,
   {
     files: browserFiles,

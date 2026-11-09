@@ -34,24 +34,30 @@
 | 98 | element | `severity-select` |
 | 108 | element | `service-select` |
 | 114 | element | `correlation-input` |
-| 117 | element | `filter-summary` |
-| 124 | element | `timeline-heading` |
-| 127 | element | `export-json` |
-| 128 | element | `export-csv` |
-| 131 | element | `timeline-description` |
-| 137 | element | `timeline-chart` |
-| 156 | element | `timeline-table-body` |
-| 166 | element | `events-heading` |
-| 171 | element | `event-list` |
-| 178 | element | `virtual-list-note` |
-| 186 | element | `detail-heading` |
-| 187 | element | `event-detail` |
+| 119 | element | `from-input` |
+| 129 | element | `to-input` |
+| 137 | element | `time-hint` |
+| 142 | element | `time-error` |
+| 143 | element | `filter-summary` |
+| 150 | element | `timeline-heading` |
+| 153 | element | `export-json` |
+| 154 | element | `export-csv` |
+| 157 | element | `timeline-description` |
+| 163 | element | `timeline-chart` |
+| 182 | element | `timeline-table-body` |
+| 192 | element | `events-heading` |
+| 197 | element | `event-list` |
+| 204 | element | `virtual-list-note` |
+| 212 | element | `detail-heading` |
+| 213 | element | `event-detail` |
 
 ## `playwright.config.js`
 
 | Line | Kind | Symbol |
 |---:|---|---|
 | 9 | variable | `externalServer` |
+| 10 | variable | `port` |
+| 11 | variable | `channel` |
 
 ## `public/service-worker.js`
 
@@ -183,34 +189,48 @@
 
 | Line | Kind | Symbol |
 |---:|---|---|
-| 16 | variable | `ROOT` |
-| 17 | variable | `OUTPUT_DIRECTORY` |
-| 18 | variable | `TARGET_URL` |
-| 19 | variable | `RUN_COUNT` |
-| 20 | variable | `CATEGORY_BUDGETS` |
-| 26 | variable | `AUDIT_BUDGETS` |
-| 37 | function | `waitForServer` |
-| 40 | variable | `response` |
-| 54 | function | `launchPreview` |
-| 55 | variable | `viteExecutable` |
-| 72 | function | `isWindowsCleanupError` |
-| 73 | variable | `errorCode` |
-| 82 | function | `stopChrome` |
-| 96 | function | `runAudit` |
-| 97 | variable | `chrome` |
-| 102 | variable | `result` |
-| 129 | function | `median` |
-| 133 | variable | `sorted` |
-| 142 | function | `summarize` |
-| 143 | variable | `categories` |
-| 145 | variable | `scores` |
-| 149 | variable | `audits` |
-| 165 | function | `enforceBudgets` |
-| 166 | variable | `failures` |
-| 179 | function | `main` |
-| 181 | variable | `preview` |
-| 184 | variable | `results` |
-| 188 | variable | `summary` |
+| 17 | variable | `ROOT` |
+| 18 | variable | `OUTPUT_DIRECTORY` |
+| 19 | variable | `PREVIEW_PORT` |
+| 23 | variable | `TARGET_URL` |
+| 24 | variable | `RUN_COUNT` |
+| 25 | variable | `CATEGORY_BUDGETS` |
+| 31 | variable | `AUDIT_BUDGETS` |
+| 42 | function | `waitForServer` |
+| 44 | variable | `output` |
+| 45 | variable | `timer` |
+| 55 | variable | `finish` |
+| 64 | variable | `onOutput` |
+| 68 | variable | `onExit` |
+| 75 | variable | `onError` |
+| 81 | variable | `response` |
+| 89 | function | `launchPreview` |
+| 90 | variable | `viteExecutable` |
+| 115 | function | `isWindowsCleanupError` |
+| 116 | variable | `errorCode` |
+| 125 | function | `stopChrome` |
+| 139 | function | `runAudit` |
+| 140 | variable | `chrome` |
+| 145 | variable | `result` |
+| 172 | function | `median` |
+| 176 | variable | `sorted` |
+| 185 | function | `summarize` |
+| 186 | variable | `categories` |
+| 188 | variable | `scores` |
+| 192 | variable | `audits` |
+| 208 | function | `enforceBudgets` |
+| 209 | variable | `failures` |
+| 222 | function | `main` |
+| 224 | variable | `preview` |
+| 227 | variable | `results` |
+| 231 | variable | `summary` |
+
+## `scripts/preview-output.mjs`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 14 | function | `sanitizePreviewOutput` |
+| 24 | function | `isOwnedPreviewReady` |
 
 ## `scripts/validate-repository.mjs`
 
@@ -248,54 +268,57 @@
 
 | Line | Kind | Symbol |
 |---:|---|---|
-| 55 | function | `startApplication` |
-| 56 | variable | `controls` |
-| 58 | variable | `database` |
-| 59 | variable | `parserClient` |
-| 61 | variable | `events` |
-| 63 | variable | `filteredEvents` |
-| 64 | variable | `eventIndex` |
-| 65 | variable | `latestLongTaskMs` |
-| 66 | variable | `virtualList` |
-| 70 | variable | `disconnectLongTasks` |
-| 75 | variable | `render` |
-| 76 | variable | `filters` |
-| 91 | variable | `applyEvents` |
-| 103 | variable | `commitImport` |
-| 117 | variable | `handleFile` |
-| 118 | variable | `file` |
-| 126 | variable | `result` |
-| 144 | variable | `handleDemo` |
-| 148 | variable | `result` |
-| 157 | variable | `handleClear` |
-| 187 | variable | `urlFilters` |
-| 199 | variable | `storedEvents` |
-| 230 | function | `setEvidenceActionsDisabled` |
-| 241 | function | `loadDemo` |
-| 242 | variable | `response` |
-| 246 | variable | `text` |
-| 256 | function | `renderDetails` |
-| 263 | variable | `list` |
-| 266 | variable | `fields` |
-| 276 | variable | `term` |
-| 278 | variable | `description` |
-| 291 | function | `populateServices` |
-| 292 | variable | `previous` |
-| 293 | variable | `options` |
-| 294 | variable | `option` |
-| 299 | variable | `all` |
-| 314 | function | `issueSummary` |
-| 325 | function | `readControlFilters` |
-| 340 | function | `setControlFilters` |
-| 352 | function | `initializeTheme` |
-| 353 | variable | `stored` |
-| 354 | variable | `theme` |
-| 368 | function | `setNetworkStatus` |
-| 378 | function | `updateStorageStatus` |
-| 379 | variable | `estimate` |
-| 398 | function | `requiredElement` |
-| 399 | variable | `element` |
-| 410 | function | `collectControls` |
+| 59 | function | `startApplication` |
+| 60 | variable | `controls` |
+| 62 | variable | `database` |
+| 63 | variable | `parserClient` |
+| 65 | variable | `events` |
+| 67 | variable | `filteredEvents` |
+| 68 | variable | `eventIndex` |
+| 69 | variable | `latestLongTaskMs` |
+| 70 | variable | `virtualList` |
+| 74 | variable | `disconnectLongTasks` |
+| 79 | variable | `render` |
+| 80 | variable | `range` |
+| 81 | variable | `nativeInvalid` |
+| 82 | variable | `valid` |
+| 88 | variable | `filters` |
+| 111 | variable | `applyEvents` |
+| 123 | variable | `commitImport` |
+| 137 | variable | `handleFile` |
+| 138 | variable | `file` |
+| 146 | variable | `result` |
+| 164 | variable | `handleDemo` |
+| 168 | variable | `result` |
+| 177 | variable | `handleClear` |
+| 214 | variable | `urlFilters` |
+| 226 | variable | `storedEvents` |
+| 257 | function | `setEvidenceActionsDisabled` |
+| 268 | function | `loadDemo` |
+| 269 | variable | `response` |
+| 273 | variable | `text` |
+| 283 | function | `renderDetails` |
+| 290 | variable | `list` |
+| 293 | variable | `fields` |
+| 303 | variable | `term` |
+| 305 | variable | `description` |
+| 318 | function | `populateServices` |
+| 319 | variable | `previous` |
+| 320 | variable | `options` |
+| 321 | variable | `option` |
+| 326 | variable | `all` |
+| 341 | function | `issueSummary` |
+| 353 | function | `readControlFilters` |
+| 372 | function | `setControlFilters` |
+| 393 | function | `initializeTheme` |
+| 394 | variable | `stored` |
+| 395 | variable | `theme` |
+| 409 | function | `setNetworkStatus` |
+| 419 | function | `updateStorageStatus` |
+| 420 | variable | `estimate` |
+| 439 | function | `requiredElement` |
+| 440 | variable | `element` |
+| 451 | function | `collectControls` |
 
 ## `src/core/event-index.js`
 
@@ -455,6 +478,18 @@
 | 20 | variable | `registration` |
 | 25 | variable | `installingWorker` |
 
+## `src/state/time-window.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 13 | function | `parseUtcBoundary` |
+| 15 | variable | `parts` |
+| 19 | variable | `canonical` |
+| 20 | variable | `epoch` |
+| 30 | function | `parseTimeWindow` |
+| 31 | variable | `start` |
+| 32 | variable | `end` |
+
 ## `src/state/url-state.js`
 
 | Line | Kind | Symbol |
@@ -463,11 +498,11 @@
 | 9 | variable | `MAX_URL_VALUE_LENGTH` |
 | 16 | function | `readUrlFilters` |
 | 17 | variable | `parameters` |
-| 33 | function | `writeUrlFilters` |
-| 38 | variable | `url` |
-| 42 | variable | `entries` |
-| 49 | variable | `value` |
-| 63 | function | `boundedQueryValue` |
+| 35 | function | `writeUrlFilters` |
+| 40 | variable | `url` |
+| 44 | variable | `entries` |
+| 53 | variable | `value` |
+| 67 | function | `boundedQueryValue` |
 
 ## `src/storage/database.js`
 
@@ -632,6 +667,15 @@
 |---:|---|---|
 | — | file | No declarations indexed |
 
+## `tests/e2e/time-window.spec.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 12 | variable | `records` |
+| 64 | variable | `downloadPromise` |
+| 66 | variable | `path` |
+| 68 | variable | `exported` |
+
 ## `tests/e2e/worker-cancel.spec.js`
 
 | Line | Kind | Symbol |
@@ -709,6 +753,14 @@
 | 42 | variable | `csv` |
 | 85 | variable | `csv` |
 
+## `tests/unit/preview-output.test.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 10 | variable | `url` |
+| 11 | variable | `colorized` |
+| 35 | variable | `boundary` |
+
 ## `tests/unit/protocol.test.js`
 
 | Line | Kind | Symbol |
@@ -723,6 +775,15 @@
 |---:|---|---|
 | 13 | variable | `single` |
 | 19 | variable | `input` |
+
+## `tests/unit/time-window.test.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 68 | variable | `records` |
+| 78 | variable | `range` |
+| 81 | variable | `index` |
+| 82 | variable | `bounds` |
 
 ## `tests/unit/ui.test.js`
 
@@ -740,8 +801,13 @@
 | Line | Kind | Symbol |
 |---:|---|---|
 | 12 | variable | `filters` |
-| 24 | variable | `replaceState` |
-| 25 | variable | `url` |
+| 26 | variable | `replaceState` |
+| 27 | variable | `url` |
+| 40 | variable | `replaceState` |
+| 41 | variable | `from` |
+| 42 | variable | `to` |
+| 43 | variable | `url` |
+| 45 | variable | `reset` |
 
 ## `vite.config.js`
 

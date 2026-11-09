@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-09",
+  "scope": "UTC incident filtering and safe recovery",
+  "validation": {
+    "unit_tests": 74,
+    "coverage": {
+      "statements": 97.03,
+      "branches": 91.0,
+      "functions": 92.68,
+      "lines": 97.9
+    },
+    "browser_cases_passed": 18,
+    "browser_cases_expected_skipped": 6,
+    "browsers": ["Chromium 156", "Firefox 157", "WebKit 27.2"],
+    "browser_skips": "Offline emulation and worker cancellation intentionally Chromium-only, unchanged policy plus new offline UTC journey",
+    "new_journeys": [
+      "inclusive UTC/offset/millisecond filtering and exact downloaded JSON contents",
+      "combined indexed dimensions and exact-equal time bounds",
+      "reversed-range invalid state and export blocking",
+      "valid no-match state, reset, invalid URL recovery and 390px viewport",
+      "offline UTC filter restoration under America/New_York timezone"
+    ],
+    "lighthouse": {
+      "runs": 3,
+      "categories": {
+        "accessibility": 1,
+        "best-practices": 1,
+        "performance": 0.97,
+        "seo": 0.91
+      },
+      "first_contentful_paint_ms": 907.8345,
+      "largest_contentful_paint_ms": 1072.612,
+      "total_blocking_time_ms": 0
+    },
+    "npm_audit_vulnerabilities": 0,
+    "complete_npm_verify": "passed",
+    "benchmark_50000_events": {
+      "normalize_sort_ms": 150.7777,
+      "index_ms": 128.515,
+      "query_p95_ms": 2.3915,
+      "heap_delta_mib": 73.8128
+    }
+  },
+  "dependency_changes": [
+    "Compatible transitive updates: fast-uri 3.1.9, zod 4.6.7 via updated browser-audit dependencies",
+    "Scoped minimatch >=7 <11.0.1 ->11.0.1 override; lint/types/all-three-browser matrix passed",
+    "Exact direct toolchain versions and Vitest/coverage peer pair unchanged"
+  ],
+  "boundaries": [
+    "Synthetic/approved local data only; no account or server upload added",
+    "UTC criteria are stored in allowlisted URL filter values; users must avoid sharing sensitive investigation filters",
+    "Automated axe/Lighthouse checks do not certify screen-reader comprehension",
+    "No Actions, hosted deployment, Docker modifications or real incident data used"
+  ],
+  "ci_repair": {
+    "cause": "CI ANSI color sequences split the Vite Local URL host and bold port; matching raw stdout timed out before audit",
+    "fix": "Normalize terminal control sequences and require the exact Local listener address before probing the owned strict-port preview",
+    "startup_deadline_seconds": 15,
+    "budgets_unchanged": true,
+    "regression_cases": 3,
+    "forced_color_lighthouse": {
+      "runs": 3,
+      "categories": {
+        "accessibility": 1,
+        "best-practices": 1,
+        "performance": 0.97,
+        "seo": 0.91
+      },
+      "fcp_ms": 946.9319,
+      "lcp_ms": 1110.4319,
+      "tbt_ms": 0
+    },
+    "occupied_port_sentinel": {
+      "rejected": true,
+      "http_requests": 0
+    }
+  }
+}

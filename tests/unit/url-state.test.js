@@ -17,6 +17,8 @@ describe("URL filter state", () => {
       severity: "error",
       service: "api",
       correlationId: "chain-1",
+      from: "",
+      to: "",
     });
   });
 
@@ -32,5 +34,16 @@ describe("URL filter state", () => {
     expect(url.searchParams.has("severity")).toBe(false);
     expect(url.searchParams.get("unknown")).toBe("kept");
     expect(replaceState).toHaveBeenCalledWith(null, "", url);
+  });
+
+  it("round-trips bounded UTC windows and removes both stale bounds on reset", () => {
+    const replaceState = vi.fn();
+    const from = "2026-03-18T14:02:14.002";
+    const to = "2026-03-18T14:03";
+    const url = writeUrlFilters({ from, to }, { replaceState }, { href: "https://example.test/" });
+    expect(readUrlFilters(url)).toMatchObject({ from, to });
+    const reset = writeUrlFilters({}, { replaceState }, { href: url.href });
+    expect(reset.searchParams.has("from")).toBe(false);
+    expect(reset.searchParams.has("to")).toBe(false);
   });
 });

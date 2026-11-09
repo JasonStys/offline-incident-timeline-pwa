@@ -7,6 +7,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const externalServer = Boolean(process.env.PLAYWRIGHT_EXTERNAL_SERVER);
+const port = Number(process.env.INCIDENT_BROWSER_PORT ?? 4391);
+const channel = process.env.INCIDENT_BROWSER_CHANNEL;
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -17,7 +19,7 @@ export default defineConfig({
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   timeout: 30000,
   use: {
-    baseURL: "http://127.0.0.1:4391",
+    baseURL: `http://127.0.0.1:${port}`,
     trace: "retain-on-failure",
     serviceWorkers: "allow",
   },
@@ -25,15 +27,14 @@ export default defineConfig({
     ? {}
     : {
         webServer: {
-          command:
-            "node node_modules/vite/bin/vite.js build && node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4391",
-          port: 4391,
+          command: `node node_modules/vite/bin/vite.js build && node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port ${port} --strictPort`,
+          port,
           reuseExistingServer: false,
           timeout: 120000,
         },
       }),
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "chromium", use: { ...devices["Desktop Chrome"], ...(channel ? { channel } : {}) } },
     { name: "firefox", use: { ...devices["Desktop Firefox"] } },
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],

@@ -3,5 +3,6 @@ coverage/
 playwright-report/
 test-results/
 .lighthouseci/
+.runtime/
 docs/CODE_INDEX.md
 package-lock.json

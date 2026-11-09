@@ -13,21 +13,22 @@ The largest layer protects deterministic domain behavior. Integration tests cove
 
 ## Coverage matrix
 
-| Risk                           | Test type              | Representative cases                                                                            |
-| ------------------------------ | ---------------------- | ----------------------------------------------------------------------------------------------- |
-| Untrusted record shape         | Unit/property          | Invalid timestamps/severity/identifiers/metadata, bounds, duplicate IDs.                        |
-| Incorrect timeline order       | Example + property     | Empty/single arrays, random numeric arrays, equal timestamp stability.                          |
-| Incorrect filter intersections | Unit                   | Token + severity + service + correlation, unknown buckets, time bounds.                         |
-| CSV parser edge cases          | Unit                   | Quotes, commas, CRLF/LF, quoted newlines, aliases, duplicate/missing headers, malformed quotes. |
-| Export injection               | Unit                   | Formula prefixes and quote escaping.                                                            |
-| Worker contract                | Unit + E2E             | Version mismatch, invalid envelopes, progress, immediate cancellation, no partial commit.       |
-| Database migration/integrity   | Integration            | New schema, v1→v2 index addition, replace/read/meta/clear/delete, corrupt records.              |
-| Unsafe DOM insertion           | Static gate + DOM      | Ban dynamic markup primitives; malicious-looking message remains text.                          |
-| Keyboard/accessibility         | DOM + E2E              | Arrow selection, labels, populated axe WCAG A/AA scan, equivalent table.                        |
-| Offline failure                | E2E                    | Ready worker, online seed, network disable, reload, IndexedDB restore.                          |
-| Cross-engine behavior          | E2E matrix             | Chromium, Firefox, WebKit main flow and axe scan.                                               |
-| Performance regression         | Benchmark + Lighthouse | 50k algorithm budgets, category scores, FCP/LCP/TBT budgets.                                    |
-| Supply-chain regression        | CI                     | `npm audit`, Dependabot, dependency review, CodeQL, SHA-pinned Actions.                         |
+| Risk                           | Test type                    | Representative cases                                                                                                                     |
+| ------------------------------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Untrusted record shape         | Unit/property                | Invalid timestamps/severity/identifiers/metadata, bounds, duplicate IDs.                                                                 |
+| Incorrect timeline order       | Example + property           | Empty/single arrays, random numeric arrays, equal timestamp stability.                                                                   |
+| Incorrect filter intersections | Unit                         | Token + severity + service + correlation, unknown buckets, time bounds.                                                                  |
+| UTC input and safe recovery    | Unit + cross-browser journey | Exact milliseconds, open/equal/reversed bounds, leap/date validation, explicit offsets, invalid URL, filtered export and offline restore |
+| CSV parser edge cases          | Unit                         | Quotes, commas, CRLF/LF, quoted newlines, aliases, duplicate/missing headers, malformed quotes.                                          |
+| Export injection               | Unit                         | Formula prefixes and quote escaping.                                                                                                     |
+| Worker contract                | Unit + E2E                   | Version mismatch, invalid envelopes, progress, immediate cancellation, no partial commit.                                                |
+| Database migration/integrity   | Integration                  | New schema, v1→v2 index addition, replace/read/meta/clear/delete, corrupt records.                                                       |
+| Unsafe DOM insertion           | Static gate + DOM            | Ban dynamic markup primitives; malicious-looking message remains text.                                                                   |
+| Keyboard/accessibility         | DOM + E2E                    | Arrow selection, labels, populated axe WCAG A/AA scan, equivalent table.                                                                 |
+| Offline failure                | E2E                          | Ready worker, online seed, network disable, reload, IndexedDB restore.                                                                   |
+| Cross-engine behavior          | E2E matrix                   | Chromium, Firefox, WebKit main flow and axe scan.                                                                                        |
+| Performance regression         | Benchmark + Lighthouse       | 50k algorithm budgets, category scores, FCP/LCP/TBT budgets.                                                                             |
+| Supply-chain regression        | CI                           | `npm audit`, Dependabot, dependency review, CodeQL, SHA-pinned Actions.                                                                  |
 
 ## Coverage thresholds
 
@@ -47,6 +48,12 @@ npm run verify
 ```
 
 Install browsers once with `npx playwright install chromium firefox webkit`. CI installs each browser and its Linux dependencies in isolated matrix jobs.
+
+The time-window journeys run under `America/New_York` while their controls explicitly use UTC,
+including a calendar date near a DST transition. They inspect downloaded JSON contents, not just
+download existence. Offline/cancellation emulation remains deliberately Chromium-only. An optional
+`INCIDENT_BROWSER_CHANNEL=msedge` can use an installed Edge browser for a local Chromium-compatible
+check; the full matrix uses the pinned browser binaries. No occupied server is reused.
 
 Lighthouse runs three times. The performance category uses the median score to reduce shared-runner noise, while accessibility, best-practices, and SEO use the lowest score and FCP/LCP/TBT use the slowest measurement. Every declared budget must still pass.
 

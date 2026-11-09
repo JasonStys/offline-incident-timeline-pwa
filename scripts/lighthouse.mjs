@@ -12,10 +12,15 @@ import { fileURLToPath } from "node:url";
 import { launch } from "chrome-launcher";
 import lighthouse from "lighthouse";
 import { chromium } from "playwright";
+import { isOwnedPreviewReady, sanitizePreviewOutput } from "./preview-output.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT_DIRECTORY = path.join(ROOT, ".runtime", "lighthouse");
-const TARGET_URL = "http://127.0.0.1:4174/";
+const PREVIEW_PORT = Number(process.env.INCIDENT_LIGHTHOUSE_PORT ?? 4174);
+if (!Number.isSafeInteger(PREVIEW_PORT) || PREVIEW_PORT < 1024 || PREVIEW_PORT > 65535) {
+  throw new Error("INCIDENT_LIGHTHOUSE_PORT must be an integer from 1024 through 65535.");
+}
+const TARGET_URL = `http://127.0.0.1:${PREVIEW_PORT}/`;
 const RUN_COUNT = 3;
 const CATEGORY_BUDGETS = {
   accessibility: 1,
@@ -30,21 +35,51 @@ const AUDIT_BUDGETS = {
 };
 
 /**
- * Waits for the preview process to accept HTTP requests.
- * @param {number} attempts Maximum requests.
+ * Waits for the owned preview to announce its strict-port listener before probing HTTP.
+ * @param {import("node:child_process").ChildProcess} preview Owned preview process.
  * @returns {Promise<void>}
  */
-async function waitForServer(attempts = 60) {
-  for (let attempt = 0; attempt < attempts; attempt += 1) {
-    try {
-      const response = await fetch(TARGET_URL);
-      if (response.ok) return;
-    } catch {
-      // The preview process may still be binding its socket.
-    }
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-  throw new Error("Production preview did not become ready.");
+async function waitForServer(preview) {
+  await new Promise((resolve, reject) => {
+    let output = "";
+    const timer = setTimeout(
+      () =>
+        finish(
+          new Error(
+            `Owned production preview did not become ready. Startup output: ${sanitizePreviewOutput(output) || "(none)"}`,
+          ),
+        ),
+      15_000,
+    );
+    /** @param {Error | undefined} [error] Startup failure, if any. */
+    const finish = (error) => {
+      clearTimeout(timer);
+      preview.stdout?.off("data", onOutput);
+      preview.off("exit", onExit);
+      preview.off("error", onError);
+      if (error) reject(error);
+      else resolve(undefined);
+    };
+    /** @param {Buffer} chunk Bounded startup output. */
+    const onOutput = (chunk) => {
+      output = (output + chunk.toString()).slice(-2000);
+      if (isOwnedPreviewReady(output, TARGET_URL)) finish();
+    };
+    const onExit = () =>
+      finish(
+        new Error(
+          `Owned preview exited; its port may be occupied. No existing service was used. Startup output: ${sanitizePreviewOutput(output) || "(none)"}`,
+        ),
+      );
+    /** @param {Error} error Process launch failure. */
+    const onError = (error) => finish(error);
+    preview.stdout?.on("data", onOutput);
+    preview.stderr?.resume();
+    preview.once("exit", onExit);
+    preview.once("error", onError);
+  });
+  const response = await fetch(TARGET_URL, { signal: AbortSignal.timeout(2_000) });
+  if (!response.ok) throw new Error("Owned production preview returned an unsuccessful response.");
 }
 
 /**
@@ -55,10 +90,18 @@ function launchPreview() {
   const viteExecutable = path.join(ROOT, "node_modules", "vite", "bin", "vite.js");
   return spawn(
     process.execPath,
-    [viteExecutable, "preview", "--host", "127.0.0.1", "--port", "4174"],
+    [
+      viteExecutable,
+      "preview",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      String(PREVIEW_PORT),
+      "--strictPort",
+    ],
     {
       cwd: ROOT,
-      stdio: "ignore",
+      stdio: ["ignore", "pipe", "pipe"],
       windowsHide: true,
     },
   );
@@ -180,7 +223,7 @@ async function main() {
   await mkdir(OUTPUT_DIRECTORY, { recursive: true });
   const preview = launchPreview();
   try {
-    await waitForServer();
+    await waitForServer(preview);
     const results = [];
     for (let runNumber = 1; runNumber <= RUN_COUNT; runNumber += 1) {
       results.push(await runAudit(runNumber));
