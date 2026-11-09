@@ -23,14 +23,16 @@ Exports contain only currently matching evidence and are generated locally witho
 
 ## Implementation and tests
 
-| File                             | Purpose                                                                       |
-| -------------------------------- | ----------------------------------------------------------------------------- |
-| `src/state/time-window.js`       | Strict UTC calendar round-trip validation and inclusive ordered bounds        |
-| `src/app.js`                     | Form integration, invalid/no-match states, export disabling and derived views |
-| `src/state/url-state.js`         | Bounded allowlisted UTC filter persistence                                    |
-| `src/core/event-index.js`        | Existing index intersection followed by inclusive millisecond comparison      |
-| `tests/unit/time-window.test.js` | UTC/DST/leap/calendar/epoch/boundary regression evidence                      |
-| `tests/e2e/time-window.spec.js`  | Analyst import/filter/export/recovery and offline journeys                    |
+| File                                | Purpose                                                                       |
+| ----------------------------------- | ----------------------------------------------------------------------------- |
+| `src/state/time-window.js`          | Strict UTC calendar round-trip validation and inclusive ordered bounds        |
+| `src/app.js`                        | Form integration, invalid/no-match states, export disabling and derived views |
+| `src/state/url-state.js`            | Bounded allowlisted UTC filter persistence                                    |
+| `src/core/event-index.js`           | Existing index intersection followed by inclusive millisecond comparison      |
+| `tests/unit/time-window.test.js`    | UTC/DST/leap/calendar/epoch/boundary regression evidence                      |
+| `scripts/preview-output.mjs`        | ANSI-safe exact owned-listener recognition for CI startup                     |
+| `tests/unit/preview-output.test.js` | Actual CI output, different ports and partial-chunk regressions               |
+| `tests/e2e/time-window.spec.js`     | Analyst import/filter/export/recovery and offline journeys                    |
 
 The Service Worker cache namespace is now v2 so an older cached shell does not mask the controls.
 There is no IndexedDB migration for this feature: the existing normalized event schema is unchanged.

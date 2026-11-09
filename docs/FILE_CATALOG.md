@@ -55,6 +55,7 @@
 | `scripts/generate-code-index.mjs`                  | Generates an exact line-number index for functions, classes, variables, and HTML element IDs.                                   |
 | `scripts/generate-file-catalog.mjs`                | Generates a complete file catalog from source headers and curated non-code descriptions.                                        |
 | `scripts/lighthouse.mjs`                           | Runs current Lighthouse three times against the production preview and enforces conservative budgets.                           |
+| `scripts/preview-output.mjs`                       | Normalizes terminal formatting before recognizing the owned Vite preview listener.                                              |
 | `scripts/validate-repository.mjs`                  | Enforces documentation, source-header, workflow-pin, dependency-peer, unsafe-DOM, fixture, and repository contracts.            |
 | `SECURITY.md`                                      | Security model, supported versions, reporting, and safe-data policy.                                                            |
 | `src/app.js`                                       | Coordinates imports, persistence, indexed filtering, accessible rendering, exports, and recovery.                               |
@@ -86,6 +87,7 @@
 | `tests/unit/event.test.js`                         | Verifies event validation, normalization, duplicate handling, stable ties, and input limits.                                    |
 | `tests/unit/export.test.js`                        | Verifies deterministic JSON and formula-safe RFC-compatible CSV serialization.                                                  |
 | `tests/unit/parse.test.js`                         | Verifies format detection, JSON envelopes, CSV quoting, aliases, metadata, and parser limits.                                   |
+| `tests/unit/preview-output.test.js`                | Reproduces colorized CI listener output without weakening strict-port ownership checks.                                         |
 | `tests/unit/protocol.test.js`                      | Verifies versioned worker request construction and boundary validation.                                                         |
 | `tests/unit/stable-merge-sort.test.js`             | Uses examples and generated data to prove ordering, stability, and non-mutation.                                                |
 | `tests/unit/time-window.test.js`                   | Tests UTC calendar validation, inclusive boundaries and indexed filtering independently of UI.                                  |

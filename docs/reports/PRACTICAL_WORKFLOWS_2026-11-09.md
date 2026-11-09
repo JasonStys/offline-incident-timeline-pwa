@@ -14,7 +14,7 @@ remain enforced.
 
 ## Observed results
 
-- 71 unit/property/integration tests passed; coverage was 97.03% statements, 91.00% branches,
+- 74 unit/property/integration tests passed; coverage was 97.03% statements, 91.00% branches,
   92.68% functions and 97.90% lines, above all existing release thresholds.
 - The full real Chromium, Firefox and WebKit matrix passed 18 cases. Six intentionally skipped
   instances retain the documented Chromium-only offline/cancellation policy. Existing accessibility,
@@ -48,3 +48,17 @@ terms; do not share such links. Automated accessibility checks do not replace ma
 technology testing. See [UTC_WINDOWS.md](../UTC_WINDOWS.md) for user behavior and file responsibilities.
 
 Machine-readable evidence: [PRACTICAL_WORKFLOWS_2026-11-09.json](PRACTICAL_WORKFLOWS_2026-11-09.json).
+
+## CI startup repair
+
+The hosted Lighthouse job initially timed out before running audits because CI enabled ANSI color
+inside Vite's listener address: the host and bold port were separated by control sequences. An
+owned forced-color reproduction confirmed that the raw expected URL was absent while the visible
+address was correct. The runner now removes terminal formatting, requires the exact announced
+Local URL, and includes bounded sanitized startup output on failure. The strict-port ownership
+check, 15-second startup deadline and all Lighthouse budgets are unchanged.
+
+Three focused regressions cover plain/ANSI/CRLF output, chunked output, unrelated logs and different
+ports. An owned occupied-port sentinel test was rejected with zero HTTP requests sent to that
+service. Three complete Lighthouse runs with CI-style color enabled passed again: accessibility
+1.00, best practices 1.00, performance 0.97, SEO 0.91, FCP 947 ms, LCP 1110 ms and TBT 0 ms.

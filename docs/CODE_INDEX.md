@@ -189,41 +189,48 @@
 
 | Line | Kind | Symbol |
 |---:|---|---|
-| 16 | variable | `ROOT` |
-| 17 | variable | `OUTPUT_DIRECTORY` |
-| 18 | variable | `PREVIEW_PORT` |
-| 22 | variable | `TARGET_URL` |
-| 23 | variable | `RUN_COUNT` |
-| 24 | variable | `CATEGORY_BUDGETS` |
-| 30 | variable | `AUDIT_BUDGETS` |
-| 41 | function | `waitForServer` |
-| 43 | variable | `output` |
-| 44 | variable | `timer` |
-| 49 | variable | `finish` |
-| 58 | variable | `onOutput` |
-| 62 | variable | `onExit` |
-| 67 | variable | `onError` |
-| 73 | variable | `response` |
-| 81 | function | `launchPreview` |
-| 82 | variable | `viteExecutable` |
-| 107 | function | `isWindowsCleanupError` |
-| 108 | variable | `errorCode` |
-| 117 | function | `stopChrome` |
-| 131 | function | `runAudit` |
-| 132 | variable | `chrome` |
-| 137 | variable | `result` |
-| 164 | function | `median` |
-| 168 | variable | `sorted` |
-| 177 | function | `summarize` |
-| 178 | variable | `categories` |
-| 180 | variable | `scores` |
-| 184 | variable | `audits` |
-| 200 | function | `enforceBudgets` |
-| 201 | variable | `failures` |
-| 214 | function | `main` |
-| 216 | variable | `preview` |
-| 219 | variable | `results` |
-| 223 | variable | `summary` |
+| 17 | variable | `ROOT` |
+| 18 | variable | `OUTPUT_DIRECTORY` |
+| 19 | variable | `PREVIEW_PORT` |
+| 23 | variable | `TARGET_URL` |
+| 24 | variable | `RUN_COUNT` |
+| 25 | variable | `CATEGORY_BUDGETS` |
+| 31 | variable | `AUDIT_BUDGETS` |
+| 42 | function | `waitForServer` |
+| 44 | variable | `output` |
+| 45 | variable | `timer` |
+| 55 | variable | `finish` |
+| 64 | variable | `onOutput` |
+| 68 | variable | `onExit` |
+| 75 | variable | `onError` |
+| 81 | variable | `response` |
+| 89 | function | `launchPreview` |
+| 90 | variable | `viteExecutable` |
+| 115 | function | `isWindowsCleanupError` |
+| 116 | variable | `errorCode` |
+| 125 | function | `stopChrome` |
+| 139 | function | `runAudit` |
+| 140 | variable | `chrome` |
+| 145 | variable | `result` |
+| 172 | function | `median` |
+| 176 | variable | `sorted` |
+| 185 | function | `summarize` |
+| 186 | variable | `categories` |
+| 188 | variable | `scores` |
+| 192 | variable | `audits` |
+| 208 | function | `enforceBudgets` |
+| 209 | variable | `failures` |
+| 222 | function | `main` |
+| 224 | variable | `preview` |
+| 227 | variable | `results` |
+| 231 | variable | `summary` |
+
+## `scripts/preview-output.mjs`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 14 | function | `sanitizePreviewOutput` |
+| 24 | function | `isOwnedPreviewReady` |
 
 ## `scripts/validate-repository.mjs`
 
@@ -745,6 +752,14 @@
 | 10 | variable | `validRecord` |
 | 42 | variable | `csv` |
 | 85 | variable | `csv` |
+
+## `tests/unit/preview-output.test.js`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 10 | variable | `url` |
+| 11 | variable | `colorized` |
+| 35 | variable | `boundary` |
 
 ## `tests/unit/protocol.test.js`
 

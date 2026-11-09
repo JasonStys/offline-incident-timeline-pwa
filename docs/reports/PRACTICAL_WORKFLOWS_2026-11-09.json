@@ -2,7 +2,7 @@
   "date": "2026-11-09",
   "scope": "UTC incident filtering and safe recovery",
   "validation": {
-    "unit_tests": 71,
+    "unit_tests": 74,
     "coverage": {
       "statements": 97.03,
       "branches": 91.0,
@@ -51,5 +51,28 @@
     "UTC criteria are stored in allowlisted URL filter values; users must avoid sharing sensitive investigation filters",
     "Automated axe/Lighthouse checks do not certify screen-reader comprehension",
     "No Actions, hosted deployment, Docker modifications or real incident data used"
-  ]
+  ],
+  "ci_repair": {
+    "cause": "CI ANSI color sequences split the Vite Local URL host and bold port; matching raw stdout timed out before audit",
+    "fix": "Normalize terminal control sequences and require the exact Local listener address before probing the owned strict-port preview",
+    "startup_deadline_seconds": 15,
+    "budgets_unchanged": true,
+    "regression_cases": 3,
+    "forced_color_lighthouse": {
+      "runs": 3,
+      "categories": {
+        "accessibility": 1,
+        "best-practices": 1,
+        "performance": 0.97,
+        "seo": 0.91
+      },
+      "fcp_ms": 946.9319,
+      "lcp_ms": 1110.4319,
+      "tbt_ms": 0
+    },
+    "occupied_port_sentinel": {
+      "rejected": true,
+      "http_requests": 0
+    }
+  }
 }

@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { launch } from "chrome-launcher";
 import lighthouse from "lighthouse";
 import { chromium } from "playwright";
+import { isOwnedPreviewReady, sanitizePreviewOutput } from "./preview-output.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT_DIRECTORY = path.join(ROOT, ".runtime", "lighthouse");
@@ -42,7 +43,12 @@ async function waitForServer(preview) {
   await new Promise((resolve, reject) => {
     let output = "";
     const timer = setTimeout(
-      () => finish(new Error("Owned production preview did not become ready.")),
+      () =>
+        finish(
+          new Error(
+            `Owned production preview did not become ready. Startup output: ${sanitizePreviewOutput(output) || "(none)"}`,
+          ),
+        ),
       15_000,
     );
     /** @param {Error | undefined} [error] Startup failure, if any. */
@@ -57,11 +63,13 @@ async function waitForServer(preview) {
     /** @param {Buffer} chunk Bounded startup output. */
     const onOutput = (chunk) => {
       output = (output + chunk.toString()).slice(-2000);
-      if (output.includes(TARGET_URL)) finish();
+      if (isOwnedPreviewReady(output, TARGET_URL)) finish();
     };
     const onExit = () =>
       finish(
-        new Error("Owned preview exited; its port may be occupied. No existing service was used."),
+        new Error(
+          `Owned preview exited; its port may be occupied. No existing service was used. Startup output: ${sanitizePreviewOutput(output) || "(none)"}`,
+        ),
       );
     /** @param {Error} error Process launch failure. */
     const onError = (error) => finish(error);
