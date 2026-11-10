@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "project": "offline-incident-timeline-pwa",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "b14606df53ff13e21473ad8c3357050bbbc40abc",
+  "sourceUrl": "https://github.com/JasonStys/offline-incident-timeline-pwa/tree/b14606df53ff13e21473ad8c3357050bbbc40abc",
+  "functionalEvidenceBaseline": "b14606df53ff13e21473ad8c3357050bbbc40abc",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42704678410,
+      "event": "push",
+      "headSha": "b14606df53ff13e21473ad8c3357050bbbc40abc",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/offline-incident-timeline-pwa/actions/runs/42704678410"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42704678454,
+      "event": "push",
+      "headSha": "b14606df53ff13e21473ad8c3357050bbbc40abc",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/offline-incident-timeline-pwa/actions/runs/42704678454"
+    }
+  ],
+  "summary": "Combine exact UTC filters, safe URL state, no-result/export handling and offline restoration; fix owned Lighthouse startup parsing.",
+  "rationale": "Supports reliable field investigation and honest validation without adopting another local server.",
+  "limitations": [
+    "Local approved evidence only; no account service, encryption or server upload boundary is added.",
+    "Allowlisted URL filters can reveal investigation terms when shared; they are not confidential storage.",
+    "Offline/cancel emulation cases run only in Chromium; automated Axe/Lighthouse results do not certify screen-reader comprehension."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 46824,
+      "sha256": "a8b42591c0284e9d3cb5cc3cd69b77d00170494432cb4a5b4555e86ab43bbb98",
+      "sourceBaseline": "b14606df53ff13e21473ad8c3357050bbbc40abc",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 7,
+        "renderedPageSha256": {
+          "page-1.png": "54212583e35261a20c9ad3d27ae6203145dd826caf660bb19273a3839ed2cdc0",
+          "page-2.png": "db3693e4ecbb2cb6e007f18972b45fa037b7bf49047bcc9f615fe0608033e414",
+          "page-3.png": "1bda4c4d486bdfff7a8d99d58a8202ce928eca9e2185e7a476d21f35ce343c3a",
+          "page-4.png": "96cd814c3772cb955a21f98dde2ca19cd586ea438368e3ffa9b0988a79eeb429",
+          "page-5.png": "c4e0115131d973f1d34aa5cf951b9c9436d690c91d6faac7eadbf8267d30aa2e",
+          "page-6.png": "e838f872a0a9e383e20c345c47d18d43de5d3d69e54370f69a3b4cc042497a7d",
+          "page-7.png": "eb9edb3d213d23579dd771982244648b0aa901b2fc983e04c2dda43103db1aaa"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}
