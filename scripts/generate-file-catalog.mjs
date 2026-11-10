@@ -24,6 +24,14 @@ const EXCLUDED_DIRECTORIES = new Set([
 ]);
 const checkOnly = process.argv.includes("--check");
 const STATIC_DESCRIPTIONS = new Map([
+  [
+    "docs/reports/project-guide.docx",
+    "Reviewed source-bound Word guide with dated validation observations and practical limits.",
+  ],
+  [
+    "docs/reports/publications.json",
+    "Exact publication hashes, reviewed page identities and source/evidence baselines.",
+  ],
   [".editorconfig", "Editor-neutral whitespace and newline policy."],
   [".gitattributes", "Cross-platform Git text and line-ending policy."],
   [".gitignore", "Generated dependency, build, browser-test, and runtime exclusions."],

@@ -22,15 +22,19 @@
 | `docs/DATA_CONTRACT.md`                            | Project documentation described by its title and section contents.                                                              |
 | `docs/DEPLOYMENT_CHECKLIST.md`                     | Project documentation described by its title and section contents.                                                              |
 | `docs/FILE_CATALOG.md`                             | Project documentation described by its title and section contents.                                                              |
+| `docs/handbook.md`                                 | Project documentation described by its title and section contents.                                                              |
 | `docs/LIMITATIONS.md`                              | Project documentation described by its title and section contents.                                                              |
 | `docs/OFFLINE_OPERATIONS.md`                       | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/ACTIONS_REVIEW_2026-10-14.md`        | Project documentation described by its title and section contents.                                                              |
+| `docs/reports/documentation-refresh-2026-11-09.md` | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/generated/benchmark.json`            | Repository support file.                                                                                                        |
 | `docs/reports/PERFORMANCE.md`                      | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/portfolio-sync-2026-10-14.md`        | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/portfolio-sync-2026-10-22.md`        | docs/reports/portfolio-sync-2026-10-22.md; Purpose: reviewed integration and validation trail by Jason Stys.                    |
 | `docs/reports/PRACTICAL_WORKFLOWS_2026-11-09.json` | Repository support file.                                                                                                        |
 | `docs/reports/PRACTICAL_WORKFLOWS_2026-11-09.md`   | Project documentation described by its title and section contents.                                                              |
+| `docs/reports/project-guide.docx`                  | Reviewed source-bound Word guide with dated validation observations and practical limits.                                       |
+| `docs/reports/publications.json`                   | Exact publication hashes, reviewed page identities and source/evidence baselines.                                               |
 | `docs/reports/TEST_SUMMARY.md`                     | Project documentation described by its title and section contents.                                                              |
 | `docs/reports/VALIDATION.md`                       | Project documentation described by its title and section contents.                                                              |
 | `docs/REQUIREMENTS.md`                             | Project documentation described by its title and section contents.                                                              |

@@ -1,2 +1,3 @@
 # File: Keeps repository text deterministic across Windows, macOS, and Linux checkouts.
 * text=auto eol=lf
+*.docx binary
