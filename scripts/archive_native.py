@@ -2,6 +2,7 @@
 Purpose: Validate a complete Windows ZIP, relocate it and use the actual bundled native application.
 Functions: create_archive/extract_archive bound names and real bytes; main owns only fresh test paths.
 Variables: fixed product/version, finite expansion budgets and current-source synthetic receipts.
+Line locations: docs/CODE_INDEX.md.
 """
 
 from __future__ import annotations

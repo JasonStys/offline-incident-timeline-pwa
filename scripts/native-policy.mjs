@@ -77,4 +77,6 @@ export function nativePolicy(source) {
   assert.doesNotMatch(source.ci, /PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS|continue-on-error/);
   assert.match(source.codeql, /\n {2}analyze:\n/);
   assert.ok(source.codeql.includes("category: /language:javascript-typescript"));
+  assert.ok(source.codeql.includes("language: [python, actions]"));
+  assert.ok(source.codeql.includes("category: /language:${{ matrix.language }}"));
 }

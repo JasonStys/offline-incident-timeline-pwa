@@ -11,7 +11,7 @@ This report distinguishes local candidate evidence from later exact-source hoste
 
 ## Observed local evidence
 
-The original three-engine suite completed with 18 passes and its six existing non-Chromium offline/worker skips. The current unit suite completed 95 cases at 97.90% lines (374/382), 91.00% branches (253/278) and 92.68% functions (76/82) in its original coverage scope. Original unit/property/storage floors remain 92% lines/statements/functions and 88% branches. The measured scope is core, parser, storage and protocol, not every UI/native line.
+The original three-engine suite completed with 18 passes and its six existing non-Chromium offline/worker skips. The current unit suite completed 97 cases at 97.90% lines (374/382), 91.00% branches (253/278) and 92.68% functions (76/82) in its original coverage scope. Original unit/property/storage floors remain 92% lines/statements/functions and 88% branches. The measured scope is core, parser, storage and protocol, not every UI/native line.
 
 Four native helpers have their own actual Node coverage: descriptor IO, profile admission, operation ownership and package protocol. Their 22 controls measured 99.24% lines, 95.14% branches and 95.83% functions. New enforced floors are 95/90/90 respectively. Main/preload and real UI behavior are exercised by the actual EXE consumer rather than included in that helper percentage. Six small real ZIP fixtures cover path traversal, duplicate/case collisions, links, declared/actual bounds, source growth and vendor timestamps.
 
@@ -20,6 +20,8 @@ The corrected relocated Windows candidate completed two actual EXE launches and 
 The original Service Worker/IndexedDB schema and protocol contracts remain; only shell cache namespace v3 invalidates the changed browser UI. Native application version is 1.1.0 and locked Electron runtime 44.11.1. Source maps are development-only.
 
 ## Hosted boundaries
+
+The original JavaScript CodeQL job and category remain intact. Separate genuine Python and Actions analyses cover the new archive/tooling/workflow source, with no project execution or source exclusions. Their hosted processed results are required separately; local unit success is not a clean-scan claim.
 
 The unchanged three-sample Lighthouse runner passed locally: aggregate accessibility 1.00, best practices 1.00, performance 0.97 and SEO 0.91; median FCP 951.995 ms, LCP 1125.495 ms and TBT 0 ms. Its known Windows temporary-browser-profile cleanup warnings were retained. These observations are not a production SLO or a claim that every UI/native line has been measured.
 

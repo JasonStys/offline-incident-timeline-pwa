@@ -28,6 +28,7 @@
 |---:|---|---|
 | 12 | variable | `require` |
 | 17 | variable | `VERSION` |
+| 18 | variable | `URL_ROOT` |
 | 19 | variable | `sourceRoot` |
 | 20 | variable | `resourceRoot` |
 | 25 | variable | `profileFlag` |
@@ -301,6 +302,22 @@
 | 97 | variable | `keys` |
 | 122 | variable | `request` |
 
+## `scripts/archive_native.py`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 19 | variable | `ROOT` |
+| 20 | variable | `MAX_MEMBERS` |
+| 21 | variable | `MAX_TOTAL` |
+| 22 | variable | `MAX_MEMBER` |
+| 23 | variable | `BLOCK` |
+| 24 | variable | `RESERVED` |
+| 34 | function | `require` |
+| 40 | function | `real_directory` |
+| 53 | function | `create_archive` |
+| 130 | function | `extract_archive` |
+| 186 | function | `main` |
+
 ## `scripts/benchmark.mjs`
 
 | Line | Kind | Symbol |
@@ -406,19 +423,19 @@
 | 41 | variable | `absolute` |
 | 56 | function | `symbolsForFile` |
 | 57 | variable | `patterns` |
-| 63 | variable | `symbols` |
-| 65 | variable | `trimmed` |
-| 67 | variable | `match` |
-| 82 | function | `htmlIdsForFile` |
-| 84 | variable | `symbols` |
-| 98 | function | `renderIndex` |
-| 99 | variable | `lines` |
-| 120 | function | `main` |
-| 121 | variable | `files` |
-| 122 | variable | `records` |
-| 124 | variable | `source` |
-| 130 | variable | `rendered` |
-| 132 | variable | `existing` |
+| 65 | variable | `symbols` |
+| 67 | variable | `trimmed` |
+| 69 | variable | `match` |
+| 84 | function | `htmlIdsForFile` |
+| 86 | variable | `symbols` |
+| 100 | function | `renderIndex` |
+| 101 | variable | `lines` |
+| 122 | function | `main` |
+| 123 | variable | `files` |
+| 124 | variable | `records` |
+| 126 | variable | `source` |
+| 132 | variable | `rendered` |
+| 134 | variable | `existing` |
 
 ## `scripts/generate-file-catalog.mjs`
 
@@ -1006,6 +1023,22 @@
 | 21 | variable | `fixture` |
 | 37 | function | `buildLargeFixture` |
 
+## `tests/test_native_archive.py`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 17 | variable | `SPEC` |
+| 25 | class | `ArchiveBoundaries` |
+| 28 | function | `setUp` |
+| 32 | function | `tearDown` |
+| 35 | function | `test_real_payload_with_old_vendor_timestamp_roundtrips_without_replacement` |
+| 55 | function | `test_actual_hardlinked_payload_refuses_without_touching_outside_bytes` |
+| 66 | function | `test_malicious_names_fail_before_output_creation` |
+| 90 | function | `test_case_collisions_and_declared_links_fail_before_output` |
+| 103 | function | `test_actual_declared_expansion_budget_is_enforced_before_output` |
+| 114 | function | `test_real_source_growth_after_inventory_cannot_silently_enter_archive` |
+| 121 | function | `changed` |
+
 ## `tests/unit/client-lifetime.test.js`
 
 | Line | Kind | Symbol |
@@ -1096,8 +1129,8 @@
 | Line | Kind | Symbol |
 |---:|---|---|
 | 14 | variable | `cases` |
-| 30 | variable | `source` |
-| 31 | variable | `key` |
+| 32 | variable | `source` |
+| 33 | variable | `key` |
 
 ## `tests/unit/parse.test.js`
 

@@ -8,7 +8,7 @@
 | `.gitattributes`                                   | Cross-platform Git text and line-ending policy.                                                                                      |
 | `.github/dependabot.yml`                           | Proposes bounded weekly updates for npm and GitHub Actions dependencies.                                                             |
 | `.github/workflows/ci.yml`                         | Runs quality, unit, benchmark, build, audit, cross-browser, offline, and Lighthouse gates.                                           |
-| `.github/workflows/codeql.yml`                     | Runs scheduled and change-triggered JavaScript/TypeScript semantic security analysis.                                                |
+| `.github/workflows/codeql.yml`                     | Retains original JavaScript analysis and separately scans actual Python packaging and Actions source.                                |
 | `.github/workflows/dependency-review.yml`          | Blocks pull requests that introduce known high-severity dependency vulnerabilities.                                                  |
 | `.github/workflows/native-app.yml`                 | Build and actually use the complete unsigned Windows app in a fresh relocated synthetic profile.                                     |
 | `.gitignore`                                       | Generated dependency, build, browser-test, and runtime exclusions.                                                                   |

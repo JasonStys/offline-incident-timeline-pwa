@@ -24,6 +24,8 @@ describe("reviewed native workflow contracts", () => {
     ["ci", "options: --user 1001", "options: --user 0"],
     ["ci", "node scripts/check-browser-host.mjs chromium", "echo unproven"],
     ["codeql", "category: /language:javascript-typescript", "category: /language:replacement"],
+    ["codeql", "language: [python, actions]", "language: [python]"],
+    ["codeql", "category: /language:${{ matrix.language }}", "category: /language:unrelated"],
   ];
   for (const [field, before, after] of cases)
     it(`rejects ${field}: ${after}`, () => {
