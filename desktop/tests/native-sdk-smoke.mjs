@@ -36,6 +36,8 @@ let application;
 const exits = [];
 /** @type {string[]} */
 const logs = [];
+/** @type {string[]} */
+const pageErrors = [];
 /** @type {{version:string,runtime:string|undefined,node:string,packaged:boolean}[]} */
 const runtimeIdentities = [];
 /** Start only the fixed actual native source entry with an explicit synthetic profile. */
@@ -57,6 +59,7 @@ async function launch() {
     if (logs.length < 64) logs.push(message.type() + ": " + message.text().slice(0, 2000));
   });
   page.on("pageerror", (error) => {
+    if (pageErrors.length < 64) pageErrors.push(String(error).slice(0, 2000));
     if (logs.length < 64) logs.push("pageerror: " + String(error).slice(0, 2000));
   });
   app.process().stderr?.on("data", (bytes) => {
@@ -150,6 +153,25 @@ async function finish(app, heldExport = false) {
 try {
   application = await launch();
   const { app, page } = application;
+  const refused = await page.evaluate(async () => {
+    const bridge = Reflect.get(window, "timelineDesktop");
+    const admission = await bridge.beginOperation("unknown").then(
+      () => false,
+      () => true,
+    );
+    const file = await bridge
+      .exportText({
+        fileName: "arbitrary.exe",
+        mimeType: "application/json",
+        text: "inert refusal control",
+      })
+      .then(
+        () => false,
+        () => true,
+      );
+    return { admission, file };
+  });
+  expect(refused).toEqual({ admission: true, file: true });
   await page.locator("#demo-button").click();
   await expect(page.locator("#filter-summary")).toContainText("15 of 15 events");
   await expect(page.locator("#network-status")).toHaveText("Local desktop bundle");
@@ -212,6 +234,7 @@ try {
     .screenshot({ path: path.join(output, "native-evidence-details.png") });
   await finish(app);
   application = undefined;
+  expect(pageErrors).toEqual([]);
   application = await launch();
   await expect(application.page.locator("#filter-summary")).toContainText("4 of 4 events");
   await expect(application.page.locator("#operation-status")).toContainText(
@@ -251,6 +274,7 @@ try {
     JSON.parse(await fs.readFile(path.join(output, "exit-pending-evidence.json"), "utf8")).events,
   ).toHaveLength(4);
   application = undefined;
+  expect(pageErrors).toEqual([]);
   await fs.writeFile(
     path.join(output, "proof.json"),
     JSON.stringify(
@@ -263,6 +287,8 @@ try {
         packaged: Boolean(packagedExecutable),
         ownedWindowVisibleAtReady: true,
         runtimeIdentities,
+        pageErrors,
+        closedBridgeRefusals: refused,
         exitCodes: exits,
         events: 15,
         exactWindowEvents: 2,
