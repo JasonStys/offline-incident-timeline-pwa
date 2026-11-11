@@ -48,6 +48,7 @@ The native application instead serves verified physical assets from a stable pri
 ## Verification
 
 ```bash
+npm --prefix desktop ci --ignore-scripts
 npm run verify
 npx playwright install chromium firefox webkit
 npm run test:e2e
@@ -55,6 +56,8 @@ npm run audit
 ```
 
 `npm run verify` checks formatting, lint, strict JavaScript types, unit/property coverage, the large-fixture benchmark budget, production build, repository contracts, exact code-index freshness, and file-catalog freshness. See [testing strategy](docs/TESTING.md), [validation evidence](docs/reports/VALIDATION.md), and [performance evidence](docs/reports/PERFORMANCE.md).
+
+The native graph supplies exact Electron types for the strictly checked native acceptance harness. `--ignore-scripts` installs those declared types/tools without downloading or launching Electron; actual desktop acceptance uses the separate explicit runtime setup in the native guide.
 
 ## Product walkthrough
 

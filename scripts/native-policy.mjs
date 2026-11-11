@@ -72,6 +72,7 @@ export function nativePolicy(source) {
   assert.equal((source.ci.match(/options: --user 1001/g) ?? []).length, 2);
   assert.ok(source.ci.includes("node scripts/check-browser-host.mjs ${{ matrix.browser }}"));
   assert.ok(source.ci.includes("node scripts/check-browser-host.mjs chromium"));
+  assert.ok(source.ci.includes("npm --prefix desktop ci --ignore-scripts"));
   assert.ok(source.ci.includes("npx playwright test --project=${{ matrix.browser }}"));
   assert.ok(source.ci.includes("npm run lighthouse"));
   assert.doesNotMatch(source.ci, /PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS|continue-on-error/);

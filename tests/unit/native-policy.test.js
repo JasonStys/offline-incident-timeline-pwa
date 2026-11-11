@@ -23,6 +23,7 @@ describe("reviewed native workflow contracts", () => {
     ["main", "await owner.finish()", "void owner.finish()"],
     ["ci", "options: --user 1001", "options: --user 0"],
     ["ci", "node scripts/check-browser-host.mjs chromium", "echo unproven"],
+    ["ci", "npm --prefix desktop ci --ignore-scripts", "echo missing declared native types"],
     ["codeql", "category: /language:javascript-typescript", "category: /language:replacement"],
     ["codeql", "language: [python, actions]", "language: [python]"],
     ["codeql", "category: /language:${{ matrix.language }}", "category: /language:unrelated"],

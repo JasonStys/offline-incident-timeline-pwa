@@ -1129,8 +1129,8 @@
 | Line | Kind | Symbol |
 |---:|---|---|
 | 14 | variable | `cases` |
-| 32 | variable | `source` |
-| 33 | variable | `key` |
+| 33 | variable | `source` |
+| 34 | variable | `key` |
 
 ## `tests/unit/parse.test.js`
 
