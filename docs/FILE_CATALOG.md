@@ -27,6 +27,7 @@
 | `desktop/tests/native-sdk-smoke.mjs`               | Use the actual native incident window twice in an explicitly marked synthetic workspace.                                             |
 | `desktop/tests/owner.test.cjs`                     | Prove retained acknowledged work, refusal after exit, repeated Quit and failed native completion.                                    |
 | `desktop/tests/protocol.test.cjs`                  | Prove closed package identities, actual content hashes and an immutable exact-origin response allowlist.                             |
+| `desktop/tests/staging-reader.test.cjs`            | Exercise the actual build recorder's descriptor, alias, growth and cumulative byte guarantees.                                       |
 | `docs/ACCESSIBILITY.md`                            | Project documentation described by its title and section contents.                                                                   |
 | `docs/adr/0001-framework-free-local-first-pwa.md`  | Project documentation described by its title and section contents.                                                                   |
 | `docs/ARCHITECTURE.md`                             | Project documentation described by its title and section contents.                                                                   |
@@ -80,6 +81,7 @@
 | `scripts/generate-file-catalog.mjs`                | Generates a complete file catalog from source headers and curated non-code descriptions.                                             |
 | `scripts/lighthouse.mjs`                           | Runs current Lighthouse three times against the production preview and enforces conservative budgets.                                |
 | `scripts/native-policy.mjs`                        | Check the deliberately reviewed native workflow format and sandbox/package boundaries.                                               |
+| `scripts/native-resource-reader.mjs`               | Hash only actual bounded public bytes from the same admitted ordinary file descriptor.                                               |
 | `scripts/preview-output.mjs`                       | Normalizes terminal formatting before recognizing the owned Vite preview listener.                                                   |
 | `scripts/stage-native-resources.mjs`               | Stage actual production timeline files and privileged-source hashes for a new native build workspace.                                |
 | `scripts/validate-repository.mjs`                  | Enforces documentation, source-header, workflow-pin, dependency-peer, unsafe-DOM, fixture, and repository contracts.                 |

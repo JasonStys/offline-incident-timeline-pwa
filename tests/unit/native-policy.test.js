@@ -15,6 +15,12 @@ describe("reviewed native workflow contracts", () => {
     ["workflow", "contents: read", "contents: write"],
     ["workflow", "npm run test:native-contracts", "echo omitted"],
     ["workflow", ".runtime/native-hosted/proof.json", ".runtime/native-hosted/profile/**"],
+    ["workflow", ".runtime/native-hosted/*.png", "**/*"],
+    [
+      "workflow",
+      ".runtime/native-hosted/*.png",
+      ".runtime/native-hosted/*.png\n            .runtime/private/**",
+    ],
     ["workflow", "inputs.upload_package", "true"],
     ["workflow", "retention-days: 1", "retention-days: 30"],
     ["builder", "asar: false", "asar: true"],

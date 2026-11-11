@@ -1,12 +1,12 @@
 /**
  * @file Stage actual production timeline files and privileged-source hashes for a new native build workspace.
- * Functions: run records exact clean source; walk admits only bounded public build resources.
+ * Functions: record binds actual descriptor bytes; walk admits only bounded public build resources.
  * Variables: fresh output, fixed source files and manifest digests; no private profile or installed app is read.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
 import fs from "node:fs";
 import path from "node:path";
-import { createHash } from "node:crypto";
+import { createResourceRecorder } from "./native-resource-reader.mjs";
 import { execFileSync } from "node:child_process";
 import process from "node:process";
 
@@ -37,25 +37,7 @@ if (process.env.GITHUB_ACTIONS === "true" && process.env.GITHUB_SHA !== source)
 const files = {};
 /** @type {Record<string,string>} */
 const owner = {};
-let total = 0;
-/**
- * Hash actual bytes with a per-file and total cap, without importing any document/profile data.
- * @param {string} file Public build member.
- */
-function record(file) {
-  const value = fs.lstatSync(file);
-  if (
-    !value.isFile() ||
-    value.isSymbolicLink() ||
-    value.nlink !== 1 ||
-    value.size > 16 * 1024 * 1024
-  )
-    throw new Error("Unsafe public build member.");
-  const data = fs.readFileSync(file);
-  total += data.length;
-  if (total > 32 * 1024 * 1024) throw new Error("Public native resources exceed their budget.");
-  return { data, hash: createHash("sha256").update(data).digest("hex") };
-}
+const record = createResourceRecorder();
 fs.mkdirSync(output, { recursive: true });
 /**
  * Copy only original built app assets; source maps remain development-only.

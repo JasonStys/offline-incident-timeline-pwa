@@ -41,7 +41,33 @@ export function nativePolicy(source) {
     assert.ok(source.workflow.includes(command), `Required native step: ${command}`);
   const uploads = source.workflow.split("- name: Retain");
   assert.equal(uploads.length, 3);
-  assert.doesNotMatch(uploads[1] ?? "", /profile|release\/|\.runtime\/native-hosted\/$/m);
+  // Deliberate literal workflow-format contract, not a general YAML parser.
+  // Admit the complete reviewed path list rather than mixing broad alternatives/anchors.
+  const evidenceLines = (uploads[1] ?? "").split("\n");
+  const pathStart = evidenceLines.indexOf("          path: |");
+  assert.ok(pathStart >= 0);
+  const artifactPaths = [];
+  for (const line of evidenceLines.slice(pathStart + 1)) {
+    if (!line.startsWith("            ")) break;
+    artifactPaths.push(line.slice(12));
+  }
+  assert.deepEqual(artifactPaths, [
+    ".runtime/native-hosted/proof.json",
+    ".runtime/native-hosted/archive.json",
+    ".runtime/native-hosted/failure.json",
+    ".runtime/native-hosted/*.png",
+  ]);
+  assert.deepEqual(
+    evidenceLines.filter(
+      (line) => line.startsWith("          ") && !line.startsWith("           "),
+    ),
+    [
+      "          name: incident-native-proof",
+      "          path: |",
+      "          if-no-files-found: ignore",
+      "          retention-days: 7",
+    ],
+  );
   assert.ok(
     (uploads[2] ?? "").includes(
       "if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.upload_package",

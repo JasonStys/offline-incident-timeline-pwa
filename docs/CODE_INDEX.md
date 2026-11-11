@@ -218,6 +218,22 @@
 | 128 | variable | `state` |
 | 133 | variable | `bytes` |
 
+## `desktop/tests/staging-reader.test.cjs`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 13 | variable | `reader` |
+| 14 | function | `fixture` |
+| 15 | variable | `root` |
+| 27 | variable | `value` |
+| 40 | variable | `large` |
+| 51 | variable | `original` |
+| 52 | variable | `replaced` |
+| 62 | variable | `value` |
+| 77 | variable | `original` |
+| 78 | variable | `grew` |
+| 93 | variable | `record` |
+
 ## `eslint.config.js`
 
 | Line | Kind | Symbol |
@@ -515,6 +531,18 @@
 | 14 | variable | `read` |
 | 26 | function | `nativePolicy` |
 | 42 | variable | `uploads` |
+| 46 | variable | `evidenceLines` |
+| 47 | variable | `pathStart` |
+| 49 | variable | `artifactPaths` |
+
+## `scripts/native-resource-reader.mjs`
+
+| Line | Kind | Symbol |
+|---:|---|---|
+| 12 | function | `createResourceRecorder` |
+| 13 | variable | `total` |
+| 15 | variable | `remaining` |
+| 16 | variable | `data` |
 
 ## `scripts/preview-output.mjs`
 
@@ -536,14 +564,11 @@
 | 22 | variable | `dirty` |
 | 37 | variable | `files` |
 | 39 | variable | `owner` |
-| 40 | variable | `total` |
-| 45 | function | `record` |
-| 46 | variable | `value` |
-| 54 | variable | `data` |
-| 64 | function | `walk` |
-| 66 | variable | `input` |
-| 70 | variable | `name` |
-| 74 | variable | `destination` |
+| 40 | variable | `record` |
+| 46 | function | `walk` |
+| 48 | variable | `input` |
+| 52 | variable | `name` |
+| 56 | variable | `destination` |
 
 ## `scripts/validate-repository.mjs`
 
@@ -1129,8 +1154,8 @@
 | Line | Kind | Symbol |
 |---:|---|---|
 | 14 | variable | `cases` |
-| 33 | variable | `source` |
-| 34 | variable | `key` |
+| 39 | variable | `source` |
+| 40 | variable | `key` |
 
 ## `tests/unit/parse.test.js`
 
