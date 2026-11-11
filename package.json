@@ -31,7 +31,7 @@
     "test:native-contracts": "node --experimental-test-coverage --test-coverage-lines=95 --test-coverage-branches=90 --test-coverage-functions=90 --test desktop/tests/*.test.cjs"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.13.0",
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@types/node": "26.6.5",
