@@ -4,15 +4,20 @@
  * Variables: blob, url, anchor.
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
+import { desktopBridge } from "../desktop.js";
 
 /**
  * Downloads generated text without transmitting data to a server.
  * @param {string} fileName Suggested local filename.
  * @param {string} text Export content.
  * @param {string} mimeType MIME type.
- * @returns {void}
+ * @returns {Promise<{cancelled: boolean}>} Native new-file completion, or an ordinary browser download request (not a saved-file claim).
  */
-export function downloadText(fileName, text, mimeType) {
+export async function downloadText(fileName, text, mimeType) {
+  const desktop = desktopBridge();
+  if (desktop) {
+    return desktop.exportText({ fileName, text, mimeType });
+  }
   const blob = new Blob([text], { type: `${mimeType};charset=utf-8` });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
@@ -23,4 +28,5 @@ export function downloadText(fileName, text, mimeType) {
   anchor.click();
   anchor.remove();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  return { cancelled: false };
 }

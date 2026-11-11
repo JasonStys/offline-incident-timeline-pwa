@@ -1,4 +1,7 @@
 dist/
+release/
+__pycache__/
+desktop/package-lock.json
 coverage/
 playwright-report/
 test-results/

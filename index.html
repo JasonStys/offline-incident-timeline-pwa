@@ -52,6 +52,13 @@
           <output id="operation-status" role="status" aria-live="polite">Starting…</output>
         </div>
         <div class="action-row">
+          <label for="prepared-fixture"
+            >Prepared incident
+            <select id="prepared-fixture" disabled>
+              <option value="sample">Service outage (15 events)</option>
+              <option value="midnight">UTC midnight recovery (4 events)</option>
+            </select>
+          </label>
           <button id="demo-button" type="button" disabled>Load demo incident</button>
           <label id="file-label" class="file-button" for="file-input" aria-disabled="true"
             >Import JSON or CSV</label
@@ -68,7 +75,8 @@
           </button>
         </div>
         <p class="help-text">
-          Files stay in this browser. Maximum 10 MiB and 100,000 records. No data is uploaded.
+          Files stay in this local profile. Maximum 10 MiB and 100,000 records. No data is uploaded.
+          Prepared incidents are synthetic; a successful load replaces the current snapshot.
         </p>
         <details>
           <summary>Expected fields and recovery behavior</summary>
@@ -216,9 +224,11 @@
     </main>
 
     <footer>
+      <p>Made by Jason Stys · github.com/JasonStys · Incident Timeline 1.1.0</p>
       <p>
-        Synthetic demonstration data only. Cache and database versions are visible in the browser's
-        developer tools and documented in the repository.
+        The prepared example is synthetic. Your imported evidence stays in this local browser or
+        desktop profile. UTC filters, chart labels, event details and exports use the same time
+        scale.
       </p>
     </footer>
     <script type="module" src="/src/main.js"></script>

@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT = path.join(ROOT, "docs", "CODE_INDEX.md");
-const CODE_EXTENSIONS = new Set([".js", ".mjs"]);
+const CODE_EXTENSIONS = new Set([".js", ".mjs", ".cjs"]);
 const checkOnly = process.argv.includes("--check");
 
 /**
@@ -29,6 +29,8 @@ async function collectFiles(directory) {
         ".runtime",
         "coverage",
         "dist",
+        "release",
+        "__pycache__",
         "node_modules",
         "playwright-report",
         "test-results",

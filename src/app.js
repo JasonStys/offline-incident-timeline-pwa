@@ -21,6 +21,7 @@ import {
 import { renderSummaryTable, renderTimelineChart } from "./ui/timeline-chart.js";
 import { VirtualEventList } from "./ui/virtual-list.js";
 import { ParserWorkerClient } from "./worker/client.js";
+import { desktopBridge, withDesktopOperation } from "./desktop.js";
 
 /** @import {IncidentEvent, ValidationIssue} from "./core/event.js" */
 /**
@@ -29,6 +30,7 @@ import { ParserWorkerClient } from "./worker/client.js";
  * @property {HTMLOutputElement} storageStatus
  * @property {HTMLOutputElement} operationStatus
  * @property {HTMLSelectElement} themeSelect
+ * @property {HTMLSelectElement} preparedFixture
  * @property {HTMLButtonElement} demoButton
  * @property {HTMLLabelElement} fileLabel
  * @property {HTMLInputElement} fileInput
@@ -57,6 +59,14 @@ import { ParserWorkerClient } from "./worker/client.js";
  * @returns {Promise<() => void>} Cleanup callback for tests or controlled teardown.
  */
 export async function startApplication() {
+  return withDesktopOperation("startup", startOwnedApplication);
+}
+
+/**
+ * Runs the original actual timeline initialization after optional native lifetime admission.
+ * @returns {Promise<() => void>} Real teardown closes the parser and database handle.
+ */
+async function startOwnedApplication() {
   const controls = collectControls();
   setEvidenceActionsDisabled(controls, true);
   const database = await openTimelineDatabase();
@@ -67,6 +77,8 @@ export async function startApplication() {
   let filteredEvents = [];
   let eventIndex = new EventIndex([]);
   let latestLongTaskMs = 0;
+  let evidenceActive = false;
+  let quitting = false;
   const virtualList = new VirtualEventList(controls.eventList, {
     onSelect: (event) => renderDetails(controls.eventDetail, event),
   });
@@ -157,7 +169,7 @@ export async function startApplication() {
     } finally {
       controls.cancelButton.disabled = true;
       controls.fileInput.value = "";
-      setEvidenceActionsDisabled(controls, false);
+      setEvidenceActionsDisabled(controls, evidenceActive || quitting);
     }
   };
 
@@ -165,12 +177,13 @@ export async function startApplication() {
     setEvidenceActionsDisabled(controls, true);
     controls.operationStatus.textContent = "Loading demo incident…";
     try {
-      const result = await measureOperation("demo-import", loadDemo);
+      const fixture = controls.preparedFixture.value;
+      const result = await measureOperation("demo-import", () => loadDemo(fixture));
       await commitImport(result, "bundled synthetic fixture");
     } catch (error) {
       controls.operationStatus.textContent = `Demo load failed: ${error instanceof Error ? error.message : "Unknown error."}`;
     } finally {
-      setEvidenceActionsDisabled(controls, false);
+      setEvidenceActionsDisabled(controls, evidenceActive || quitting);
     }
   };
 
@@ -184,7 +197,7 @@ export async function startApplication() {
     } catch (error) {
       controls.operationStatus.textContent = `Clear failed: ${error instanceof Error ? error.message : "Unknown error."}`;
     } finally {
-      setEvidenceActionsDisabled(controls, false);
+      setEvidenceActionsDisabled(controls, evidenceActive || quitting);
     }
   };
 
@@ -200,16 +213,62 @@ export async function startApplication() {
     controls.toInput.setCustomValidity("");
     render();
   });
-  controls.fileInput.addEventListener("change", () => void handleFile());
-  controls.demoButton.addEventListener("click", () => void handleDemo());
+  /**
+   * Preserve synchronous single-operation admission while waiting for a native acknowledgement.
+   * @param {"import" | "fixture" | "clear"} kind Actual operation.
+   * @param {() => Promise<void>} work Original parser/database flow.
+   */
+  function runEvidence(kind, work) {
+    if (evidenceActive || quitting) return;
+    evidenceActive = true;
+    setEvidenceActionsDisabled(controls, true);
+    void withDesktopOperation(kind, work)
+      .catch(reportNativeFailure)
+      .finally(() => {
+        evidenceActive = false;
+        setEvidenceActionsDisabled(controls, quitting);
+      });
+  }
+  controls.fileInput.addEventListener("change", () => runEvidence("import", handleFile));
+  controls.demoButton.addEventListener("click", () => runEvidence("fixture", handleDemo));
   controls.cancelButton.addEventListener("click", () => parserClient.cancel());
-  controls.clearButton.addEventListener("click", () => void handleClear());
-  controls.exportJson.addEventListener("click", () =>
-    downloadText("incident-timeline.json", serializeEventsJson(filteredEvents), "application/json"),
-  );
-  controls.exportCsv.addEventListener("click", () =>
-    downloadText("incident-timeline.csv", serializeEventsCsv(filteredEvents), "text/csv"),
-  );
+  controls.clearButton.addEventListener("click", () => runEvidence("clear", handleClear));
+  /**
+   * Capture the selected exact evidence before awaiting the native save dialog; browser downloads retain their original behavior.
+   * @param {"json" | "csv"} format Explicit output format.
+   */
+  async function exportSelection(format) {
+    try {
+      const text =
+        format === "json"
+          ? serializeEventsJson(filteredEvents)
+          : serializeEventsCsv(filteredEvents);
+      const result = await downloadText(
+        `incident-timeline.${format}`,
+        text,
+        format === "json" ? "application/json" : "text/csv",
+      );
+      if (desktopBridge())
+        controls.operationStatus.textContent = result.cancelled
+          ? "Export canceled. Prior evidence and existing files are unchanged."
+          : "Filtered evidence exported to a new local file.";
+    } catch (error) {
+      reportNativeFailure(error);
+    }
+  }
+  controls.exportJson.addEventListener("click", () => void exportSelection("json"));
+  controls.exportCsv.addEventListener("click", () => void exportSelection("csv"));
+  const disconnectQuit = desktopBridge()?.onQuitWaiting(() => {
+    quitting = true;
+    setEvidenceActionsDisabled(controls, true);
+    controls.operationStatus.textContent =
+      "Exit requested. Accepted import/database/export work is finishing; this window and profile stay open until it completes.";
+  });
+
+  /** @param {unknown} error A refused native admission/export; prior accepted evidence is unchanged. */
+  function reportNativeFailure(error) {
+    controls.operationStatus.textContent = `Local operation was not applied: ${error instanceof Error ? error.message : "Unknown failure."}`;
+  }
 
   const urlFilters = readUrlFilters();
   setControlFilters(controls, urlFilters);
@@ -217,10 +276,12 @@ export async function startApplication() {
   setNetworkStatus(controls.networkStatus);
   window.addEventListener("online", () => setNetworkStatus(controls.networkStatus));
   window.addEventListener("offline", () => setNetworkStatus(controls.networkStatus));
-  await registerServiceWorker((message, state) => {
-    controls.storageStatus.textContent = message;
-    controls.storageStatus.dataset.state = state;
-  });
+  if (!desktopBridge()) {
+    await registerServiceWorker((message, state) => {
+      controls.storageStatus.textContent = message;
+      controls.storageStatus.dataset.state = state;
+    });
+  }
 
   try {
     const storedEvents = await database.readEvents();
@@ -238,9 +299,10 @@ export async function startApplication() {
     }
   }
   await updateStorageStatus(controls.storageStatus);
-  setEvidenceActionsDisabled(controls, false);
+  setEvidenceActionsDisabled(controls, quitting);
 
   return () => {
+    disconnectQuit?.();
     disconnectLongTasks();
     virtualList.destroy();
     parserClient.terminate();
@@ -256,6 +318,7 @@ export async function startApplication() {
  */
 function setEvidenceActionsDisabled(controls, disabled) {
   controls.demoButton.disabled = disabled;
+  controls.preparedFixture.disabled = disabled;
   controls.fileInput.disabled = disabled;
   controls.clearButton.disabled = disabled;
   controls.fileLabel.setAttribute("aria-disabled", String(disabled));
@@ -263,10 +326,18 @@ function setEvidenceActionsDisabled(controls, disabled) {
 
 /**
  * Fetches and validates the bundled synthetic incident fixture.
+ * @param {string} fixture Closed prepared incident name.
  * @returns {Promise<{events: IncidentEvent[], issues: ValidationIssue[]}>} Validated fixture.
  */
-async function loadDemo() {
-  const response = await fetch(new URL("fixtures/sample-incidents.json", document.baseURI));
+async function loadDemo(fixture) {
+  const name =
+    fixture === "sample"
+      ? "sample-incidents.json"
+      : fixture === "midnight"
+        ? "midnight-recovery.json"
+        : null;
+  if (!name) throw new Error("Choose a known prepared synthetic incident.");
+  const response = await fetch(new URL("fixtures/" + name, document.baseURI));
   if (!response.ok) {
     throw new Error(`Fixture request failed with HTTP ${response.status}.`);
   }
@@ -407,6 +478,11 @@ function initializeTheme(select) {
  * @returns {void}
  */
 function setNetworkStatus(output) {
+  if (desktopBridge()) {
+    output.textContent = "Local desktop bundle";
+    output.dataset.state = "good";
+    return;
+  }
   output.textContent = navigator.onLine ? "Online" : "Offline";
   output.dataset.state = navigator.onLine ? "good" : "warning";
 }
@@ -454,6 +530,7 @@ function collectControls() {
     storageStatus: requiredElement("storage-status", HTMLOutputElement),
     operationStatus: requiredElement("operation-status", HTMLOutputElement),
     themeSelect: requiredElement("theme-select", HTMLSelectElement),
+    preparedFixture: requiredElement("prepared-fixture", HTMLSelectElement),
     demoButton: requiredElement("demo-button", HTMLButtonElement),
     fileLabel: requiredElement("file-label", HTMLLabelElement),
     fileInput: requiredElement("file-input", HTMLInputElement),

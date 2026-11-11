@@ -2,6 +2,8 @@
 
 ## Risk-based pyramid
 
+The Windows 1.1.0 application additionally has an actual relocated-EXE consumer, independent native helper coverage and real archive fault controls. See [native workflow evidence](reports/NATIVE_APPLICATION_2026-11-11.md) and [build/acceptance commands](NATIVE_APPLICATION.md). The original coverage denominator and all browser/Lighthouse floors below are retained; native helper percentages are separate.
+
 ```text
            Cross-browser E2E
       offline / axe / cancellation

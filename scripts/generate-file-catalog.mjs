@@ -18,6 +18,8 @@ const EXCLUDED_DIRECTORIES = new Set([
   ".lighthouseci",
   "coverage",
   "dist",
+  "release",
+  "__pycache__",
   "node_modules",
   "playwright-report",
   "test-results",
@@ -40,6 +42,15 @@ const STATIC_DESCRIPTIONS = new Map([
   ["LICENSE", "MIT license terms."],
   ["package.json", "Pinned toolchain, metadata, and reproducible scripts."],
   ["package-lock.json", "Exact npm dependency graph for deterministic installation."],
+  [
+    "desktop/package.json",
+    "Windows application identity and exact Electron/packager/test tool versions.",
+  ],
+  ["desktop/package-lock.json", "Independent exact native tooling graph; no runtime user data."],
+  [
+    "public/fixtures/midnight-recovery.json",
+    "Prepared synthetic cross-midnight recovery with equal timestamps and inert formula-like text.",
+  ],
   ["jsconfig.json", "Strict JavaScript type-checking configuration."],
   ["public/manifest.webmanifest", "Install metadata, colors, scope, and icon declarations."],
   [

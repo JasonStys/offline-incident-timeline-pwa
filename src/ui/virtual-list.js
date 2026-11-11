@@ -6,6 +6,7 @@
  */
 
 /** @import {IncidentEvent} from "../core/event.js" */
+import { utcClock } from "./utc-time.js";
 
 const DEFAULT_ROW_HEIGHT = 72;
 const DEFAULT_OVERSCAN = 4;
@@ -177,14 +178,10 @@ function createEventRow(event, index, total, rowHeight, selected, onSelect) {
 }
 
 /**
- * Formats a timestamp as a concise local time.
+ * Formats a timestamp as a millisecond UTC clock matching the range controls.
  * @param {string} timestamp ISO timestamp.
- * @returns {string} Local time.
+ * @returns {string} Explicit UTC clock.
  */
 function formatTime(timestamp) {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(new Date(timestamp));
+  return utcClock(timestamp);
 }

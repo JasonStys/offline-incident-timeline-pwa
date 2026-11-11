@@ -46,18 +46,28 @@ export class ParserWorkerClient {
     const requestId = nextRequestId();
     this.activeRequestId = requestId;
     this.cancelRequested = false;
-    const buffer = await file.arrayBuffer();
-    if (this.cancelRequested) {
+    try {
+      const buffer = await file.arrayBuffer();
+      if (buffer.byteLength > MAX_FILE_BYTES)
+        throw new Error(`File exceeds the ${MAX_FILE_BYTES} byte limit.`);
+      if (this.cancelRequested) throw abortError("Import canceled.");
+      const request = createParseRequest(requestId, file.name, file.type, buffer);
+      return new Promise((resolve, reject) => {
+        this.pending.set(requestId, { resolve, reject, onProgress });
+        try {
+          this.worker.postMessage(request, [buffer]);
+        } catch (error) {
+          this.pending.delete(requestId);
+          this.activeRequestId = null;
+          this.cancelRequested = false;
+          reject(error);
+        }
+      });
+    } catch (error) {
       this.activeRequestId = null;
       this.cancelRequested = false;
-      throw abortError("Import canceled.");
+      throw error;
     }
-    const promise = new Promise((resolve, reject) => {
-      this.pending.set(requestId, { resolve, reject, onProgress });
-    });
-    const request = createParseRequest(requestId, file.name, file.type, buffer);
-    this.worker.postMessage(request, [buffer]);
-    return promise;
   }
 
   /** Requests cooperative cancellation of the active parse. */

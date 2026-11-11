@@ -48,6 +48,9 @@ jobs:
   browser:
     name: Browser ${{ matrix.browser }}
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:2f05f8a734509a7b3f26a912639488ee08f58a7b292d14d62271bcff9038768f
+      options: --user 1001
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -63,8 +66,9 @@ jobs:
           cache: npm
       - name: Install exact dependency graph
         run: npm ci
-      - name: Install browser and operating-system dependencies
-        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Prove actual locked browser, fonts and missing-executable refusal
+        timeout-minutes: 3
+        run: node scripts/check-browser-host.mjs ${{ matrix.browser }}
       - name: Run production-build browser flows
         run: npx playwright test --project=${{ matrix.browser }}
       - name: Upload browser evidence on failure
@@ -81,6 +85,9 @@ jobs:
   lighthouse:
     name: Lighthouse budgets
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:2f05f8a734509a7b3f26a912639488ee08f58a7b292d14d62271bcff9038768f
+      options: --user 1001
     timeout-minutes: 15
     steps:
       - name: Check out source
@@ -92,8 +99,9 @@ jobs:
           cache: npm
       - name: Install exact dependency graph
         run: npm ci
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Prove actual locked Chromium and missing-executable refusal
+        timeout-minutes: 3
+        run: node scripts/check-browser-host.mjs chromium
       - name: Build production application
         run: npm run build
       - name: Enforce Lighthouse budgets

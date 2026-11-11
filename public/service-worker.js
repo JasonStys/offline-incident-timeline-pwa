@@ -7,7 +7,7 @@
 "use strict";
 
 const CACHE_PREFIX = "incident-timeline";
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const SHELL_CACHE = `${CACHE_PREFIX}-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `${CACHE_PREFIX}-runtime-${CACHE_VERSION}`;
 const MAX_RUNTIME_ENTRIES = 40;
@@ -19,6 +19,7 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./icons/timeline.svg",
   "./fixtures/sample-incidents.json",
+  "./fixtures/midnight-recovery.json",
 ];
 
 /**
