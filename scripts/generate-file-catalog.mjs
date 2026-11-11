@@ -27,6 +27,18 @@ const EXCLUDED_DIRECTORIES = new Set([
 const checkOnly = process.argv.includes("--check");
 const STATIC_DESCRIPTIONS = new Map([
   [
+    "docs/reports/windows-application-guide-1.1.0.docx",
+    "Current four-page installed application guide with two actual screenshots, immutable source and operating limits.",
+  ],
+  [
+    "docs/reports/windows-application-guide-1.1.0.json",
+    "Exact Word, installed screenshot, immutable code and individually reviewed page identities.",
+  ],
+  [
+    "docs/reports/installed-windows-1.1.0-2026-11-11.md",
+    "Observed installed workflows, distribution identity, practical instructions and precise validation limits.",
+  ],
+  [
     "docs/reports/project-guide.docx",
     "Reviewed source-bound Word guide with dated validation observations and practical limits.",
   ],
