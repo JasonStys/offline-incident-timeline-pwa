@@ -1,6 +1,6 @@
 {
   "name": "offline-incident-timeline-pwa",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Framework-free offline incident timeline with worker parsing, IndexedDB persistence, accessible visualization, and deterministic tests.",
   "type": "module",
@@ -27,12 +27,13 @@
     "validate": "node scripts/validate-repository.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test:unit && npm run benchmark:check && npm run build && npm run validate && npm run code-index:check && npm run file-catalog:check",
-    "audit": "npm audit --audit-level=high"
+    "audit": "npm audit --audit-level=high",
+    "test:native-contracts": "node --experimental-test-coverage --test-coverage-lines=95 --test-coverage-branches=90 --test-coverage-functions=90 --test desktop/tests/*.test.cjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
-    "@playwright/test": "1.64.0",
+    "@playwright/test": "1.64.1",
     "@types/node": "26.6.5",
     "@vitest/coverage-v8": "5.0.4",
     "chrome-launcher": "1.2.1",

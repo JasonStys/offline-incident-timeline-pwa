@@ -19,11 +19,20 @@ const jsdocRules = {
 
 const browserFiles = ["src/**/*.js"];
 const workerFiles = ["src/worker/parser.worker.js", "public/service-worker.js"];
-const nodeFiles = ["scripts/**/*.mjs", "*.config.js"];
-const testFiles = ["tests/**/*.js"];
+const nodeFiles = ["scripts/**/*.mjs", "desktop/**/*.mjs", "desktop/**/*.cjs", "*.config.js"];
+const testFiles = ["tests/**/*.js", "desktop/tests/**/*.mjs", "scripts/check-browser-host.mjs"];
 
 export default [
-  { ignores: ["dist/**", "coverage/**", "playwright-report/**", "test-results/**", ".runtime/**"] },
+  {
+    ignores: [
+      "release/**",
+      "dist/**",
+      "coverage/**",
+      "playwright-report/**",
+      "test-results/**",
+      ".runtime/**",
+    ],
+  },
   eslint.configs.recommended,
   {
     files: browserFiles,

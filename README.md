@@ -1,12 +1,12 @@
 # Offline Incident Timeline PWA
 
-A framework-free progressive web application for importing synthetic JSON/CSV event logs, tracing correlated failures, and continuing the investigation without a network connection. The project demonstrates direct command of JavaScript modules, semantic HTML, modern CSS, Service Workers, IndexedDB, Web Workers, SVG, browser performance APIs, and accessible interaction design.
+A local incident-analysis application for importing approved JSON/CSV event logs, tracing correlated failures, and continuing an investigation offline. The framework-free browser PWA and Windows desktop application use the same real parser, indexes, IndexedDB transactions, UTC filtering, accessible chart and exports. Made by **Jason Stys** — [GitHub and contact](https://github.com/JasonStys).
 
 > This is a portfolio and educational project. Use synthetic or explicitly approved data only; do not import credentials, customer records, or private operational logs.
 
 ## What it demonstrates
 
-- **Browser fundamentals:** no application framework and no runtime UI dependency.
+- **Browser fundamentals:** framework-free UI with no browser UI framework; the native edition explicitly bundles Electron.
 - **Responsive work:** parsing and validation run in a dedicated worker with a versioned protocol, transferred `ArrayBuffer`, progress, and cooperative cancellation.
 - **Offline reliability:** a versioned Service Worker precaches the deterministic shell, runtime-caches same-origin worker assets, and provides a navigation fallback.
 - **Durable local data:** IndexedDB schema migrations, atomic snapshot replacement, persisted import evidence, startup revalidation, and corruption recovery.
@@ -16,6 +16,16 @@ A framework-free progressive web application for importing synthetic JSON/CSV ev
 - **Engineering evidence:** unit/property/integration tests, cross-browser Playwright flows, axe checks, offline reload tests, worker-cancellation tests, Lighthouse budgets, CodeQL, dependency review, and exact source indexes.
 
 ## Quick start
+
+### Windows desktop application
+
+The 1.1.0 native build includes its own Electron runtime; end users do not need Node.js, a browser server or a terminal. Extract the complete Windows x64 ZIP into its own folder and launch `IncidentTimeline.exe`. Keep the entire folder together. This repository's [native application guide](docs/NATIVE_APPLICATION.md) explains durable data, recovery and source-build commands; a source candidate or passing workflow is not a published installer.
+
+Choose the prepared service outage or midnight-recovery incident, then **Load demo incident**, or import an approved file. The real application can filter, inspect, export and restore its own saved evidence. **Timeline → Exit application** and the window close button finish acknowledged parsing/database/export work before closing. The app denies outside-origin requests and does not open a local HTTP server.
+
+The portable Windows app is unsigned. The source and browser PWA remain available on other platforms; a native Linux/macOS build, code signature or OS-managed installer is not claimed.
+
+### Browser PWA and development
 
 Prerequisites: Node.js 24 or newer.
 
@@ -33,9 +43,12 @@ npm run preview
 
 The Service Worker is registered only in production builds. This prevents development-cache confusion.
 
+The native application instead serves verified physical assets from a stable private `incident://workbench/` origin. Its IndexedDB profile survives application restarts; it does not depend on Service Worker registration under a custom scheme. Browser and desktop profiles are separate. Export/import explicitly to move evidence.
+
 ## Verification
 
 ```bash
+npm --prefix desktop ci --ignore-scripts
 npm run verify
 npx playwright install chromium firefox webkit
 npm run test:e2e
@@ -43,6 +56,8 @@ npm run audit
 ```
 
 `npm run verify` checks formatting, lint, strict JavaScript types, unit/property coverage, the large-fixture benchmark budget, production build, repository contracts, exact code-index freshness, and file-catalog freshness. See [testing strategy](docs/TESTING.md), [validation evidence](docs/reports/VALIDATION.md), and [performance evidence](docs/reports/PERFORMANCE.md).
+
+The native graph supplies exact Electron types for the strictly checked native acceptance harness. `--ignore-scripts` installs those declared types/tools without downloading or launching Electron; actual desktop acceptance uses the separate explicit runtime setup in the native guide.
 
 ## Product walkthrough
 

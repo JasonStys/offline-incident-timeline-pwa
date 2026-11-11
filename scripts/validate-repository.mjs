@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeRecords } from "../src/core/event.js";
 import { validateVitestPair } from "./dependency-policy.mjs";
+import { nativePolicy, readNativeSources } from "./native-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REQUIRED_FILES = [
@@ -39,13 +40,15 @@ const REQUIRED_FILES = [
   ".github/workflows/dependency-review.yml",
   ".github/dependabot.yml",
 ];
-const SOURCE_EXTENSIONS = new Set([".js", ".mjs", ".css", ".html", ".yml", ".yaml"]);
+const SOURCE_EXTENSIONS = new Set([".js", ".mjs", ".cjs", ".py", ".css", ".html", ".yml", ".yaml"]);
 const EXCLUDED_DIRECTORIES = new Set([
   ".git",
   ".runtime",
   ".lighthouseci",
   "coverage",
   "dist",
+  "release",
+  "__pycache__",
   "node_modules",
   "playwright-report",
   "test-results",
@@ -87,7 +90,10 @@ async function validateHeaders(files) {
     if (!/@file|File:/u.test(header)) {
       throw new Error(`${file} is missing a descriptive file header in its first 12 lines.`);
     }
-    if ((file.endsWith(".js") || file.endsWith(".mjs")) && !header.includes("Line locations:")) {
+    if (
+      (file.endsWith(".js") || file.endsWith(".mjs") || file.endsWith(".cjs")) &&
+      !header.includes("Line locations:")
+    ) {
       throw new Error(`${file} header must reference exact line locations.`);
     }
   }
@@ -144,11 +150,13 @@ async function validateSourceSafety(files) {
 
 /** Validates the bundled demonstration data with the same production contract. */
 async function validateFixture() {
-  const source = await readFile(path.join(ROOT, "public/fixtures/sample-incidents.json"), "utf8");
-  const records = JSON.parse(source);
-  const result = normalizeRecords(records);
-  if (result.events.length !== records.length || result.issues.length !== 0) {
-    throw new Error("Bundled fixture does not satisfy the event data contract.");
+  for (const name of ["sample-incidents.json", "midnight-recovery.json"]) {
+    const source = await readFile(path.join(ROOT, "public/fixtures", name), "utf8");
+    const records = JSON.parse(source);
+    const result = normalizeRecords(records);
+    if (result.events.length !== records.length || result.issues.length !== 0) {
+      throw new Error("Bundled fixture does not satisfy the event data contract.");
+    }
   }
 }
 
@@ -157,6 +165,7 @@ async function main() {
   await requireFiles();
   const manifest = JSON.parse(await readFile(path.join(ROOT, "package.json"), "utf8"));
   validateVitestPair(manifest.devDependencies);
+  nativePolicy(readNativeSources());
   const files = await collectFiles(ROOT);
   await validateHeaders(files);
   await validateActionPins(files);

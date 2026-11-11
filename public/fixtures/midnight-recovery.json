@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bridge-open",
+    "timestamp": "2026-03-18T23:59:59.999Z",
+    "severity": "warning",
+    "service": "order-gateway",
+    "message": "Queue delay exceeded 900 ms before scheduled recovery.",
+    "correlationId": "recovery-42",
+    "metadata": { "queueDepth": 128 }
+  },
+  {
+    "id": "bridge-error",
+    "timestamp": "2026-03-19T00:00:00.002Z",
+    "severity": "error",
+    "service": "order-gateway",
+    "message": "Payment dependency timed out; request retained for idempotent retry.",
+    "correlationId": "recovery-42",
+    "metadata": { "attempt": 1 }
+  },
+  {
+    "id": "bridge-formula",
+    "timestamp": "2026-03-19T00:00:00.002Z",
+    "severity": "error",
+    "service": "support-import",
+    "message": "=SUM(1,2)",
+    "correlationId": "recovery-42",
+    "metadata": { "note": "Synthetic formula-like text must remain inert when exported." }
+  },
+  {
+    "id": "bridge-restored",
+    "timestamp": "2026-03-19T00:00:01.000Z",
+    "severity": "info",
+    "service": "order-gateway",
+    "message": "Dependency recovered; retained request completed once.",
+    "correlationId": "recovery-42",
+    "metadata": { "completed": 1 }
+  }
+]

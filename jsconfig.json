@@ -20,6 +20,7 @@
   "include": [
     "src/**/*.js",
     "scripts/**/*.mjs",
+    "desktop/tests/**/*.mjs",
     "tests/**/*.js",
     "vite.config.js",
     "playwright.config.js",

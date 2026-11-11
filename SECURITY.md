@@ -4,6 +4,8 @@
 
 The current `main` branch is supported for security fixes. This is a local-first demonstration application, not a hosted incident-management service.
 
+The Windows 1.1.0 app retains the original local engine inside a sandboxed renderer. Its fixed preload, source-verified private asset origin, ordinary single-link profile admission and retained actual operation lifecycle are documented in the [native guide](docs/NATIVE_APPLICATION.md). Data remains plaintext to the local OS owner; there is no multiuser account boundary or malicious same-owner race guarantee. No browser profile is included in ordinary Actions artifacts.
+
 ## Reporting
 
 Do not publish exploit details or real incident data in a public issue. Report a vulnerability privately through GitHub's security-advisory workflow for this repository. Include the affected commit, browser, reproduction steps using synthetic data, expected behavior, and observed behavior.

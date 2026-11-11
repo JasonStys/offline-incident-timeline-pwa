@@ -6,10 +6,17 @@
  */
 import "./styles.css";
 import { startApplication } from "./app.js";
+import { desktopBridge } from "./desktop.js";
 
-void startApplication().catch((error) => {
-  const status = document.getElementById("operation-status");
-  if (status) {
-    status.textContent = `Application startup failed: ${error instanceof Error ? error.message : "Unknown error."}`;
-  }
-});
+void startApplication()
+  .then((cleanup) => {
+    desktopBridge()?.onShutdown(cleanup);
+    return desktopBridge()?.ready(true);
+  })
+  .catch((error) => {
+    const status = document.getElementById("operation-status");
+    if (status) {
+      status.textContent = `Application startup failed: ${error instanceof Error ? error.message : "Unknown error."}`;
+    }
+    void desktopBridge()?.ready(false);
+  });

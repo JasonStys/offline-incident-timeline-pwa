@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT = path.join(ROOT, "docs", "CODE_INDEX.md");
-const CODE_EXTENSIONS = new Set([".js", ".mjs"]);
+const CODE_EXTENSIONS = new Set([".js", ".mjs", ".cjs", ".py"]);
 const checkOnly = process.argv.includes("--check");
 
 /**
@@ -29,6 +29,8 @@ async function collectFiles(directory) {
         ".runtime",
         "coverage",
         "dist",
+        "release",
+        "__pycache__",
         "node_modules",
         "playwright-report",
         "test-results",
@@ -54,6 +56,8 @@ async function collectFiles(directory) {
 function symbolsForFile(source) {
   const patterns = [
     { kind: "function", expression: /^(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/ },
+    { kind: "function", expression: /^(?:async\s+)?def\s+([A-Za-z_][\w]*)/ },
+    { kind: "variable", expression: /^([A-Z][A-Z_0-9]*)\s*=/ },
     { kind: "class", expression: /^(?:export\s+)?class\s+([A-Za-z_$][\w$]*)/ },
     { kind: "variable", expression: /^(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)/ },
   ];

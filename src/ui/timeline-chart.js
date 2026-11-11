@@ -5,6 +5,7 @@
  * Line locations: see docs/CODE_INDEX.md for the generated symbol index.
  */
 import { summarizeSeverities } from "../core/event-index.js";
+import { utcTimestamp } from "./utc-time.js";
 
 /** @import {IncidentEvent} from "../core/event.js" */
 
@@ -114,15 +115,10 @@ function svgElement(name, attributes = {}) {
 }
 
 /**
- * Formats a known-valid timestamp in the user's locale.
+ * Formats a known-valid timestamp on the filters' UTC scale, including its date.
  * @param {string} timestamp ISO timestamp.
- * @returns {string} Localized time label.
+ * @returns {string} UTC timestamp label.
  */
 function timeLabel(timestamp) {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    fractionalSecondDigits: 3,
-  }).format(new Date(timestamp));
+  return utcTimestamp(timestamp);
 }

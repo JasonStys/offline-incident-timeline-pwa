@@ -2,11 +2,9 @@
 
 By Jason Stys.
 
-Combine exact UTC filters, safe URL state, no-result/export handling and offline restoration; fix owned Lighthouse startup parsing.
+The browser PWA and Windows application share actual Worker parsing, IndexedDB, indexed filters and evidence exports. Version 1.1.0 adds a durable private native origin, retained accepted operations, exact UTC labels and two prepared incidents inside the full application.
 
-Combine exact UTC filters, safe URL state, no-result/export handling and offline restoration; fix owned Lighthouse startup parsing.
-
-Supports reliable field investigation and honest validation without adopting another local server.
+Read the current [Windows application guide](NATIVE_APPLICATION.md) and [native validation observations](reports/NATIVE_APPLICATION_2026-11-11.md). The Word edition below retains its explicitly recorded historical source baseline; it has not been regenerated to claim later native validation.
 
 ## Read the documentation
 
@@ -23,6 +21,7 @@ The editable Markdown remains the maintenance source. The Word files are readabl
 ### Usage and operations
 
 - [OFFLINE OPERATIONS](OFFLINE_OPERATIONS.md)
+- [WINDOWS APPLICATION](NATIVE_APPLICATION.md)
 
 ### Design and contracts
 
