@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "repository": "offline-incident-timeline-pwa",
+  "runtimeVersion": "1.1.0",
+  "runtimeSource": "832e11e43942f937aa855525e3c278be037c8c27",
+  "createdAt": "2026-11-11T19:38:48.512Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-1.1.0.docx",
+  "sha256": "739f902efb5453fc8d6cf12a06721294e10543f7cc360b690717adc0299c4ebc",
+  "screenshots": [
+    {
+      "file": "native-evidence-details.png",
+      "sha256": "cb258c50fb830ef344bbc7785c0f1ffc50e236fc3b67bb787a8b478e6b5b69a3",
+      "width": 2069,
+      "height": 968,
+      "caption": "Two custom error events share the exact UTC millisecond. The selected record retains the original message, correlation and metadata; formula-like imported text stays literal."
+    },
+    {
+      "file": "native-utc-chart.png",
+      "sha256": "03feb9c262c91731c02294b299308df93207d7d82661822af4136f46ee24f0c5",
+      "width": 1995,
+      "height": 584,
+      "caption": "Equal inclusive boundaries select the exact millisecond. Coincident error marks overlap visually; the equivalent table, record list and exact exports retain the separate events."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "src/ui/utc-time.js",
+      "first": 8,
+      "last": 16,
+      "sha256": "402badc8ffbbcc652431f800e4689766a238852cda4c5a4db59f9817a4d07801",
+      "url": "https://github.com/JasonStys/offline-incident-timeline-pwa/blob/832e11e43942f937aa855525e3c278be037c8c27/src/ui/utc-time.js#L8"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Actual installed app",
+      "observed": "Two visible launches passed original 15-event and custom four-event flows, exact UTC windows, rejected-import preservation, retained IndexedDB, JSON and CSV, cancel and no-overwrite, closed bridge refusals and a real export through repeated Quit. Both processes exited zero without renderer errors.",
+      "result": "Passed"
+    },
+    {
+      "name": "Original source and browser gates",
+      "observed": "100 scoped source tests passed at 97.90% coverage; 26 native helper cases passed at 99.27% lines and 95.97% branches over five helpers. Six ZIP controls and original three-engine browser and Lighthouse gates passed; six existing browser-specific skips remain explicit.",
+      "result": "Passed"
+    },
+    {
+      "name": "Distribution and security",
+      "observed": "Five independently downloaded release files matched provider hashes. All 89 installed files stayed unchanged. All three exact-source main workflows and three actual raw CodeQL categories passed with no findings or open alerts before publication.",
+      "result": "Passed"
+    }
+  ],
+  "visualReview": {
+    "approved": true,
+    "reviewer": "audit_cyber",
+    "ooxmlSchema": "passed",
+    "pages": [
+      {
+        "page": 1,
+        "sha256": "24f7b2f145d721883663ba1e4a0a9488cf008a9ec601f4a98285c544063523f3"
+      },
+      {
+        "page": 2,
+        "sha256": "f79e79a3d5fdd9aaed7b917bfcfe7842e75ca2c41fed13710fb3ba511386f2c0"
+      },
+      {
+        "page": 3,
+        "sha256": "907980676f39b851ee54b0b36b26e3f87a572651a38e542f049e27fe36fad6a0"
+      },
+      {
+        "page": 4,
+        "sha256": "e1925fbaf0a60de52cbe3ec257e80108ecabdfd7c3399e6e956c726cfa60ea5b"
+      }
+    ],
+    "scope": "All four final pages individually inspected at original resolution; exact installed synthetic screenshots and immutable code; no ordinary user data."
+  }
+}
